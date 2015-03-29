@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1361663C-9354-42FD-98ED-1976F4C6B490</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Cif</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>163FC081944B8DB063C5A1E068BFF4F15D27C656</key>
+		<string>https://github.com/acewf/cif-eurom.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>cifapp/Cif.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>163FC081944B8DB063C5A1E068BFF4F15D27C656</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/acewf/cif-eurom.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>163FC081944B8DB063C5A1E068BFF4F15D27C656</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>163FC081944B8DB063C5A1E068BFF4F15D27C656</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cif-eurom</string>
+		</dict>
+	</array>
+</dict>
+</plist>

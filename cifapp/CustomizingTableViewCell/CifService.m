@@ -7,8 +7,6 @@
 //
 
 #import "CifService.h"
-#import "json/CJSONDeserializer.h"
-#import <Parse/Parse.h>
 
 #define kEDApiEndPointUrl @"http://www.cif.org.pt/endpoint.php?action="
 
@@ -26,14 +24,7 @@
 
 -(void)fetchData:(NSData *)data{
     self.dados = [[NSDictionary alloc] init];
-    NSError *JsonParseError;
-    NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary:data error:&JsonParseError];
-    NSLog(@"%@",json);
-    if (JsonParseError) {
-        NSLog(@"%@",JsonParseError);
-    } else {
-        self.dados = json;
-    }
+    
 }
 #pragma mark - RequestMethods
 

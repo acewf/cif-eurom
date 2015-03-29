@@ -36,7 +36,7 @@
     /////////////////////////////////////////////////
     
     AppListOfGames * me = [[AppListOfGames alloc] init];
-    self.listGames = [me getGames];
+    self.listGames = [me getfixtures];
 }
 
 - (void)didReceiveMemoryWarning

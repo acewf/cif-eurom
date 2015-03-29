@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A11AC8B610004F3F19 /* APPRequest.m */; };
+		504F21A71AC8BB79004F3F19 /* EDURLConnectionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */; };
+		504F21A81AC8BB79004F3F19 /* NSThread+MCSMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */; };
 		5CA7C9DE1AC4743500111B0F /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9DD1AC4743500111B0F /* Game.m */; };
 		5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9E01AC480D800111B0F /* AppListOfGames.m */; };
 		5CF3BBCB1AC5ACC200DC632A /* mini-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */; };
@@ -16,8 +19,6 @@
 		5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBDF1AC5C16E00DC632A /* CifService.m */; };
 		5CF3BBE21AC5C3D300DC632A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF3BBE11AC5C3D200DC632A /* Parse.framework */; };
 		5CF3BBE41AC5C3DD00DC632A /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF3BBE31AC5C3DD00DC632A /* SDWebImage.framework */; };
-		5CF3BBE61AC5C4C800DC632A /* json in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBE51AC5C4C800DC632A /* json */; };
-		5CF3BBE81AC5D3FF00DC632A /* Supporting Tasks in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBE71AC5D3FF00DC632A /* Supporting Tasks */; };
 		E2DF628A16943FAB0059BBDA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628916943FAB0059BBDA /* UIKit.framework */; };
 		E2DF628C16943FAB0059BBDA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628B16943FAB0059BBDA /* Foundation.framework */; };
 		E2DF628E16943FAB0059BBDA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628D16943FAB0059BBDA /* CoreGraphics.framework */; };
@@ -34,6 +35,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		504F21A01AC8B610004F3F19 /* APPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPRequest.h; sourceTree = "<group>"; };
+		504F21A11AC8B610004F3F19 /* APPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPRequest.m; sourceTree = "<group>"; };
+		504F21A31AC8BB79004F3F19 /* EDURLConnectionLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDURLConnectionLoader.h; sourceTree = "<group>"; };
+		504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDURLConnectionLoader.m; sourceTree = "<group>"; };
+		504F21A51AC8BB79004F3F19 /* NSThread+MCSMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+MCSMAdditions.h"; sourceTree = "<group>"; };
+		504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+MCSMAdditions.m"; sourceTree = "<group>"; };
 		5CA7C9DC1AC4743500111B0F /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		5CA7C9DD1AC4743500111B0F /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		5CA7C9DF1AC480D800111B0F /* AppListOfGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListOfGames.h; sourceTree = "<group>"; };
@@ -49,8 +56,6 @@
 		5CF3BBDF1AC5C16E00DC632A /* CifService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CifService.m; sourceTree = "<group>"; };
 		5CF3BBE11AC5C3D200DC632A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5CF3BBE31AC5C3DD00DC632A /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
-		5CF3BBE51AC5C4C800DC632A /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; path = json; sourceTree = "<group>"; };
-		5CF3BBE71AC5D3FF00DC632A /* Supporting Tasks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Tasks"; sourceTree = "<group>"; };
 		E2DF628516943FAB0059BBDA /* Cif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cif.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DF628916943FAB0059BBDA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E2DF628B16943FAB0059BBDA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -158,6 +163,12 @@
 		5CF3BBD91AC5B70B00DC632A /* factory */ = {
 			isa = PBXGroup;
 			children = (
+				504F21A01AC8B610004F3F19 /* APPRequest.h */,
+				504F21A11AC8B610004F3F19 /* APPRequest.m */,
+				504F21A31AC8BB79004F3F19 /* EDURLConnectionLoader.h */,
+				504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */,
+				504F21A51AC8BB79004F3F19 /* NSThread+MCSMAdditions.h */,
+				504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */,
 				5CF3BBDD1AC5C14800DC632A /* services */,
 				5CF3BBDB1AC5B74300DC632A /* GamesBoard */,
 				5CF3BBDA1AC5B72700DC632A /* ResultsBoard */,
@@ -233,8 +244,6 @@
 		E2DF628F16943FAB0059BBDA /* Cif */ = {
 			isa = PBXGroup;
 			children = (
-				5CF3BBE71AC5D3FF00DC632A /* Supporting Tasks */,
-				5CF3BBE51AC5C4C800DC632A /* json */,
 				E2DF629816943FAB0059BBDA /* AppDelegate.h */,
 				E2DF629916943FAB0059BBDA /* AppDelegate.m */,
 				E2DF62A116943FAB0059BBDA /* MainStoryboard.storyboard */,
@@ -314,9 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2DF629416943FAB0059BBDA /* InfoPlist.strings in Resources */,
-				5CF3BBE81AC5D3FF00DC632A /* Supporting Tasks in Resources */,
 				5CF3BBCB1AC5ACC200DC632A /* mini-logo.png in Resources */,
-				5CF3BBE61AC5C4C800DC632A /* json in Resources */,
 				E2DF629C16943FAB0059BBDA /* Default.png in Resources */,
 				E2DF629E16943FAB0059BBDA /* Default@2x.png in Resources */,
 				E2DF62A016943FAB0059BBDA /* Default-568h@2x.png in Resources */,
@@ -334,9 +341,12 @@
 				E2DF629616943FAB0059BBDA /* main.m in Sources */,
 				E2DF629A16943FAB0059BBDA /* AppDelegate.m in Sources */,
 				E2DF62AE16946EF30059BBDA /* AppListTeams.m in Sources */,
+				504F21A71AC8BB79004F3F19 /* EDURLConnectionLoader.m in Sources */,
 				5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */,
+				504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */,
 				5CF3BBD61AC5B68D00DC632A /* ResultsListData.m in Sources */,
 				5CA7C9DE1AC4743500111B0F /* Game.m in Sources */,
+				504F21A81AC8BB79004F3F19 /* NSThread+MCSMAdditions.m in Sources */,
 				5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */,
 				E2DF62B116948E0E0059BBDA /* GameCell.m in Sources */,
 				E2DF62B41694CB690059BBDA /* Team.m in Sources */,

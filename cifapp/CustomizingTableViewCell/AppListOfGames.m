@@ -10,16 +10,74 @@
 #import "Team.h"
 #import "Game.h"
 #import "CifService.h"
-#import "Supporting Tasks/EDURLConnectionLoader.h"
-#import "json/CJSONDeserializer.h"
 #import <Parse/Parse.h>
 
 @implementation AppListOfGames
 
-- (NSMutableArray*)getGames
+- (void)callService:(NSMutableString*) service
 {
-    self.listOfGames = [[NSMutableArray alloc] init];
+    NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    NSString * urlpath = [path stringByAppendingString:service];
+    //service
+
+    NSURL *url = [NSURL URLWithString:urlpath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,
+                                               NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+             NSLog(@"returneddata");
+             for (NSDictionary* key in returneddata) {
+                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                 [dateFormatter setDateFormat:@"y-MM-dd HH:mm:ss "];
+                 [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+                 
+                 
+                 Team *teamHome = [[Team alloc] init];
+                 teamHome.teamId = [key valueForKeyPath:@"TeamHomeId"];
+                 teamHome.teamName = [key valueForKeyPath:@"TeamHomeName"];
+                 teamHome.goals = [[key valueForKeyPath:@"TeamHomeScore"] intValue];
+                 teamHome.img = [key valueForKeyPath:@"TeamHomeImage"];
+                 
+                 Team *teamAway = [[Team alloc] init];
+                 teamAway.teamId = [key valueForKeyPath:@"TeamAwayId"];
+                 teamAway.teamName = [key valueForKeyPath:@"TeamAwayName"];
+                 teamAway.goals = [[key valueForKeyPath:@"TeamAwayScore"] intValue];
+                 teamAway.img = [key valueForKeyPath:@"TeamAwayImage"];
+                 
+                 Game *game = [[Game alloc] init];
+                 NSDate * datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
+                 
+                 [dateFormatter setDateFormat:@"HH:mm"];
+                 game.time = [dateFormatter stringFromDate:datetime];
+                 game.jornada = [key valueForKeyPath:@"GameJourney"];
+                 game.id = [key valueForKeyPath:@"GameId"];
+                 
+                 [self.listOfGames addObject:game];
+                 // do stuff
+             }
+             NSLog(@"DONE LOADING");
+         }else{
+             NSLog(@"error");
+         };
+     }];
+}
+
+- (NSMutableArray*)getTeams
+{
+    self.listOfTeams = [[NSMutableArray alloc] init];
     
+   
+    
+    return self.listOfGames;
+}
+-(NSMutableArray*)getfixtures{
+    self.listOfGames = [[NSMutableArray alloc] init];
+    /*
     ///////// GAME 1 ////////
     Team *teamInfo1 = [[Team alloc] init];
     teamInfo1.teamName = @"Purrianos";
@@ -38,62 +96,13 @@
     game.time = dateGame;
     //////////// END ////////////
     [self.listOfGames addObject:game];
+     */
     
-    ///////// GAME 2 ////////
-    teamInfo1 = [[Team alloc] init];
-    teamInfo1.teamName = @"Canarinhos";
-    teamInfo1.goals = 1;
-    teamInfo1.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/canarinhos.png";
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
-    teamInfo2 = [[Team alloc] init];
-    teamInfo2.teamName = @"Pé Leve";
-    teamInfo2.goals = 2;
-    teamInfo2.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png";
-    dateGame = @"11h45";
-    /////////////////////////////////////////
-    game = [[Game alloc] init];
-    game.team1Info = teamInfo1;
-    game.team2Info = teamInfo2;
-    game.time = dateGame;
-    //////////// END ////////////
-    [self.listOfGames addObject:game];
-    
-    
-    ///////// GAME 3 ////////
-    teamInfo1 = [[Team alloc] init];
-    teamInfo1.teamName = @"SD 76";
-    teamInfo1.goals = 1;
-    teamInfo1.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/sd76.png";
-    
-    teamInfo2 = [[Team alloc] init];
-    teamInfo2.teamName = @"Briosa";
-    teamInfo2.goals = 0;
-    teamInfo2.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/briosa.png";
-    dateGame = @"11h45";
-    /////////////////////////////////////////
-    game = [[Game alloc] init];
-    game.team1Info = teamInfo1;
-    game.team2Info = teamInfo2;
-    game.time = dateGame;
-    //////////// END ////////////
-    [self.listOfGames addObject:game];
-    
-    CifService *pedido = [[CifService alloc] init];
-    EDURLConnectionLoader *loader = [[EDURLConnectionLoader alloc] initWithRequest:[pedido RequestTeams]];
-    loader.progressBlock = 0;
-    loader.completionBlock = ^(NSError *error, NSData * responseData){
-        //CLLocationCoordinate2D coord;
-        NSError *jsonParseError = NULL;
-        NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary:responseData error:&jsonParseError];
-        if (!jsonParseError) {
-            
-        }
-        //[self.activityIndicator stopAnimating];
-    };
-
+    [self callService:serv];
     
     return self.listOfGames;
 }
-
 
 @end

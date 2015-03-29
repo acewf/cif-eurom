@@ -14,5 +14,7 @@
 @property (strong,nonatomic) Team *team1Info;
 @property (strong,nonatomic) Team *team2Info;
 @property (nonatomic, copy) NSString *time;
+@property (nonatomic, copy) NSString *jornada;
+@property (nonatomic, copy) NSString *id;
 
 @end

@@ -12,7 +12,19 @@
 #import "CifService.h"
 #import <Parse/Parse.h>
 
+
+static AppListOfGames *sharedInstance = nil;
+
 @implementation AppListOfGames
+
+// Get the shared instance and create it if necessary.
++ (AppListOfGames *)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
 
 - (void)callService:(NSMutableString*) service
 {
@@ -53,6 +65,8 @@
                  NSDate * datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
                  
                  [dateFormatter setDateFormat:@"HH:mm"];
+                 game.team1Info = teamHome;
+                 game.team2Info = teamAway;
                  game.time = [dateFormatter stringFromDate:datetime];
                  game.jornada = [key valueForKeyPath:@"GameJourney"];
                  game.id = [key valueForKeyPath:@"GameId"];
@@ -70,8 +84,6 @@
 - (NSMutableArray*)getTeams
 {
     self.listOfTeams = [[NSMutableArray alloc] init];
-    
-   
     
     return self.listOfGames;
 }

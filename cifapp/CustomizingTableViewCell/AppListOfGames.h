@@ -13,6 +13,8 @@
 @property (nonatomic,strong) NSMutableArray *listOfGames;
 @property (nonatomic,strong) NSMutableArray *listOfTeams;
 @property (nonatomic, copy) NSString *output;
+
++ (AppListOfGames *)sharedInstance;
 - (void)callService:(NSMutableString*) service;
 -(NSMutableArray*)getTeams;
 -(NSMutableArray*)getfixtures;

@@ -49,7 +49,6 @@ static AppListOfGames *sharedInstance = nil;
          if (data.length > 0 && connectionError == nil)
          {
              NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-             NSLog(@"returneddata");
              for (NSDictionary* key in returneddata) {
                  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                  [dateFormatter setDateFormat:@"y-MM-dd HH:mm:ss "];
@@ -94,36 +93,19 @@ static AppListOfGames *sharedInstance = nil;
     
     return self.listOfGames;
 }
--(NSMutableArray*)getfixtures{
-    /*
-    ///////// GAME 1 ////////
-    Team *teamInfo1 = [[Team alloc] init];
-    teamInfo1.teamName = @"Purrianos";
-    teamInfo1.goals = 1;
-    teamInfo1.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/purrianos.png";
-    
-    Team *teamInfo2 = [[Team alloc] init];
-    teamInfo2.teamName = @"Pé Leve";
-    teamInfo2.goals = 2;
-    teamInfo2.img = @"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png";
-    NSString*dateGame = @"10h45";
-    /////////////////////////////////////////
-    Game *game = [[Game alloc] init];
-    game.team1Info = teamInfo1;
-    game.team2Info = teamInfo2;
-    game.time = dateGame;
-    //////////// END ////////////
-    [self.listOfGames addObject:game];
-     */
-    
-    
-     NSUInteger * counter = [self.listOfGames count];
-    
+-(NSMutableArray*)getfixtures:(NSString*)jornada{
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
+    NSLog(@" %@ ",jornada);
+    if (jornada) {
+        NSString * urlpath = [NSString stringWithFormat:@"%@%@%@", @"&filter=", jornada, @""];
+        urlpath = [serv stringByAppendingString:urlpath];
+        serv = [NSMutableString stringWithFormat:@"%@", urlpath];
+    }
+    
+    NSLog(@" aiiii %@ ",serv);
+    
     [self callService:serv];
-    
-    
     
     return self.listOfGames;
 }

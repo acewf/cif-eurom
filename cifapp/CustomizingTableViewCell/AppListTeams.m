@@ -18,30 +18,17 @@
 
 @implementation AppListTeams
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     //////////////////////////////////////////////////
     // APPLISTOFGAMES --> /Model/factory/GamesBoard //
     /////////////////////////////////////////////////
+    NSLog(@"did run view loaded");
     
     AppListOfGames * me = [AppListOfGames sharedInstance];
     
-    /*
-    [[NSNotificationCenter defaultCenter] addObserver:me
-                                             selector:@selector(showMainMenu:)
-                                                 name:@"loginComplete" object:nil];
-    */
+    
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"notificationName" object:nil queue:mainQueue
      usingBlock:^(NSNotification *notification)
@@ -52,7 +39,7 @@
          NSUInteger * counter = [me.listOfGames count];
          
          self.listGames = me.listOfGames;
-         [self.tableView reloadData];
+         //[self.tableView reloadData];
          NSLog(@"DONE LOADING %zd",counter);
          // ...
      }];
@@ -65,6 +52,14 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@" RUN AppListTeams.m viewWillAppear");
+}
+
+-(void)loadData{
+    NSLog(@"load data **");
+}
+
 // the function specified in the same class where we defined the addObserver
 - (void)showMainMenu:(NSNotification *)note {
     NSLog(@"Received Notification - Someone seems to have logged in");
@@ -72,7 +67,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+    //[super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
@@ -80,11 +75,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    NSLog(@"numberOfSectionsInTableView");
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"did run");
     return [self.listGames count];
 }
 

@@ -17,6 +17,6 @@
 + (AppListOfGames *)sharedInstance;
 - (void)callService:(NSMutableString*) service;
 -(NSMutableArray*)getTeams;
--(NSMutableArray*)getfixtures;
+-(NSMutableArray*)getfixtures:(NSString*)jornada;
 
 @end

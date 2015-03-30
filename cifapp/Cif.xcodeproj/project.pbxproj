@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A11AC8B610004F3F19 /* APPRequest.m */; };
-		504F21A71AC8BB79004F3F19 /* EDURLConnectionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */; };
-		504F21A81AC8BB79004F3F19 /* NSThread+MCSMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */; };
 		5CA7C9DE1AC4743500111B0F /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9DD1AC4743500111B0F /* Game.m */; };
 		5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9E01AC480D800111B0F /* AppListOfGames.m */; };
+		5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */; };
 		5CF3BBCB1AC5ACC200DC632A /* mini-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */; };
 		5CF3BBCE1AC5B16900DC632A /* RenderClassificacao.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCD1AC5B16900DC632A /* RenderClassificacao.m */; };
 		5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD01AC5B2EB00DC632A /* TeamData.m */; };
@@ -37,14 +36,12 @@
 /* Begin PBXFileReference section */
 		504F21A01AC8B610004F3F19 /* APPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPRequest.h; sourceTree = "<group>"; };
 		504F21A11AC8B610004F3F19 /* APPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPRequest.m; sourceTree = "<group>"; };
-		504F21A31AC8BB79004F3F19 /* EDURLConnectionLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDURLConnectionLoader.h; sourceTree = "<group>"; };
-		504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDURLConnectionLoader.m; sourceTree = "<group>"; };
-		504F21A51AC8BB79004F3F19 /* NSThread+MCSMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+MCSMAdditions.h"; sourceTree = "<group>"; };
-		504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+MCSMAdditions.m"; sourceTree = "<group>"; };
 		5CA7C9DC1AC4743500111B0F /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		5CA7C9DD1AC4743500111B0F /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		5CA7C9DF1AC480D800111B0F /* AppListOfGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListOfGames.h; sourceTree = "<group>"; };
 		5CA7C9E01AC480D800111B0F /* AppListOfGames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppListOfGames.m; sourceTree = "<group>"; };
+		5CE4D6461AC960CD00BDEDF8 /* GamesResultControlerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesResultControlerViewController.h; sourceTree = "<group>"; };
+		5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesResultControlerViewController.m; sourceTree = "<group>"; };
 		5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini-logo.png"; sourceTree = "<group>"; };
 		5CF3BBCC1AC5B16900DC632A /* RenderClassificacao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderClassificacao.h; sourceTree = "<group>"; };
 		5CF3BBCD1AC5B16900DC632A /* RenderClassificacao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderClassificacao.m; sourceTree = "<group>"; };
@@ -127,6 +124,8 @@
 			children = (
 				E2DF62AC16946EF30059BBDA /* AppListTeams.h */,
 				E2DF62AD16946EF30059BBDA /* AppListTeams.m */,
+				5CE4D6461AC960CD00BDEDF8 /* GamesResultControlerViewController.h */,
+				5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */,
 			);
 			name = GamesResults;
 			sourceTree = "<group>";
@@ -163,12 +162,6 @@
 		5CF3BBD91AC5B70B00DC632A /* factory */ = {
 			isa = PBXGroup;
 			children = (
-				504F21A01AC8B610004F3F19 /* APPRequest.h */,
-				504F21A11AC8B610004F3F19 /* APPRequest.m */,
-				504F21A31AC8BB79004F3F19 /* EDURLConnectionLoader.h */,
-				504F21A41AC8BB79004F3F19 /* EDURLConnectionLoader.m */,
-				504F21A51AC8BB79004F3F19 /* NSThread+MCSMAdditions.h */,
-				504F21A61AC8BB79004F3F19 /* NSThread+MCSMAdditions.m */,
 				5CF3BBDD1AC5C14800DC632A /* services */,
 				5CF3BBDB1AC5B74300DC632A /* GamesBoard */,
 				5CF3BBDA1AC5B72700DC632A /* ResultsBoard */,
@@ -206,6 +199,8 @@
 		5CF3BBDD1AC5C14800DC632A /* services */ = {
 			isa = PBXGroup;
 			children = (
+				504F21A01AC8B610004F3F19 /* APPRequest.h */,
+				504F21A11AC8B610004F3F19 /* APPRequest.m */,
 				5CF3BBDE1AC5C16E00DC632A /* CifService.h */,
 				5CF3BBDF1AC5C16E00DC632A /* CifService.m */,
 			);
@@ -341,14 +336,13 @@
 				E2DF629616943FAB0059BBDA /* main.m in Sources */,
 				E2DF629A16943FAB0059BBDA /* AppDelegate.m in Sources */,
 				E2DF62AE16946EF30059BBDA /* AppListTeams.m in Sources */,
-				504F21A71AC8BB79004F3F19 /* EDURLConnectionLoader.m in Sources */,
 				5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */,
 				504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */,
 				5CF3BBD61AC5B68D00DC632A /* ResultsListData.m in Sources */,
 				5CA7C9DE1AC4743500111B0F /* Game.m in Sources */,
-				504F21A81AC8BB79004F3F19 /* NSThread+MCSMAdditions.m in Sources */,
 				5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */,
 				E2DF62B116948E0E0059BBDA /* GameCell.m in Sources */,
+				5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */,
 				E2DF62B41694CB690059BBDA /* Team.m in Sources */,
 				5CF3BBCE1AC5B16900DC632A /* RenderClassificacao.m in Sources */,
 				5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */,

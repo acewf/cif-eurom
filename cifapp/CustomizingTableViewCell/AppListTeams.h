@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppListTeams: UITableViewController
+@interface AppListTeams: UITableView
 
 @property (nonatomic,strong) NSMutableArray *listGames;
 

@@ -15,8 +15,9 @@
 {
     // Override point for customization after application launch.
     
-    AppListOfGames * me = [[AppListOfGames alloc] init];
+    AppListOfGames * me = [AppListOfGames sharedInstance];
     [me getfixtures];
+    NSLog(@"CALLED SERVICE");
     return YES;
 }
 							

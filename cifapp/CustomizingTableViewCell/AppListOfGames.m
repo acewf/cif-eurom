@@ -26,6 +26,13 @@ static AppListOfGames *sharedInstance = nil;
     return sharedInstance;
 }
 
+- (id)init {
+    if (self = [super init]) {
+        self.listOfGames = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 - (void)callService:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
@@ -74,7 +81,7 @@ static AppListOfGames *sharedInstance = nil;
                  [self.listOfGames addObject:game];
                  // do stuff
              }
-             NSLog(@"DONE LOADING");
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationName" object:self.listOfGames];
          }else{
              NSLog(@"error");
          };
@@ -88,7 +95,6 @@ static AppListOfGames *sharedInstance = nil;
     return self.listOfGames;
 }
 -(NSMutableArray*)getfixtures{
-    self.listOfGames = [[NSMutableArray alloc] init];
     /*
     ///////// GAME 1 ////////
     Team *teamInfo1 = [[Team alloc] init];
@@ -110,9 +116,14 @@ static AppListOfGames *sharedInstance = nil;
     [self.listOfGames addObject:game];
      */
     
+    
+     NSUInteger * counter = [self.listOfGames count];
+    
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
     [self callService:serv];
+    
+    
     
     return self.listOfGames;
 }

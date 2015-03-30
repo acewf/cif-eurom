@@ -35,8 +35,39 @@
     // APPLISTOFGAMES --> /Model/factory/GamesBoard //
     /////////////////////////////////////////////////
     
-    AppListOfGames * me = [[AppListOfGames alloc] init];
-    self.listGames = [me getfixtures];
+    AppListOfGames * me = [AppListOfGames sharedInstance];
+    
+    /*
+    [[NSNotificationCenter defaultCenter] addObserver:me
+                                             selector:@selector(showMainMenu:)
+                                                 name:@"loginComplete" object:nil];
+    */
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"notificationName" object:nil queue:mainQueue
+     usingBlock:^(NSNotification *notification)
+     {
+         
+         NSLog(@"Notification received!");
+         
+         NSUInteger * counter = [me.listOfGames count];
+         
+         self.listGames = me.listOfGames;
+         [self.tableView reloadData];
+         NSLog(@"DONE LOADING %zd",counter);
+         // ...
+     }];
+    
+    
+    
+    NSInteger * total = [me.listOfGames count];
+    NSLog(@"APP LIST TEAM View did load %zd",total);
+    //self.listGames = [me getfixtures];
+    
+}
+
+// the function specified in the same class where we defined the addObserver
+- (void)showMainMenu:(NSNotification *)note {
+    NSLog(@"Received Notification - Someone seems to have logged in");
 }
 
 - (void)didReceiveMemoryWarning

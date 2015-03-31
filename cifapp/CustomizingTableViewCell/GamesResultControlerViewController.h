@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GamesResultControlerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIPickerViewDataSource, UIPickerViewDelegate,UIGestureRecognizerDelegate>
+@interface GamesResultControlerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,UINavigationBarDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *pickerview;
 - (IBAction)tooglejornada:(id)sender;
 
@@ -16,7 +16,6 @@
 @property (nonatomic,strong) NSArray *pickerData;
 
 @property  (nonatomic) BOOL jornyePickerOpen;
-@property (strong, nonatomic) IBOutlet UIPickerView *jorneyChoose;
 @property (strong, nonatomic) IBOutlet UIView *GamesList;
 @property (strong, nonatomic) IBOutlet UITableView *tableGames;
 @end

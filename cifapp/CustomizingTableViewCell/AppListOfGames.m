@@ -38,6 +38,8 @@ static AppListOfGames *sharedInstance = nil;
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     //service
+    
+    NSLog(@" urlpath %@ ",urlpath);
 
     NSURL *url = [NSURL URLWithString:urlpath];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -96,15 +98,11 @@ static AppListOfGames *sharedInstance = nil;
 -(NSMutableArray*)getfixtures:(NSString*)jornada{
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
-    NSLog(@" %@ ",jornada);
     if (jornada) {
         NSString * urlpath = [NSString stringWithFormat:@"%@%@%@", @"&filter=", jornada, @""];
         urlpath = [serv stringByAppendingString:urlpath];
         serv = [NSMutableString stringWithFormat:@"%@", urlpath];
     }
-    
-    NSLog(@" aiiii %@ ",serv);
-    
     [self callService:serv];
     
     return self.listOfGames;

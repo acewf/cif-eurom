@@ -18,6 +18,7 @@
     AppListOfGames * me = [AppListOfGames sharedInstance];
     [me getfixtures:@"20"];
     NSLog(@"CALLED SERVICE");
+    
     return YES;
 }
 							

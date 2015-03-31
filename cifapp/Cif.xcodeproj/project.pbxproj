@@ -16,8 +16,6 @@
 		5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD01AC5B2EB00DC632A /* TeamData.m */; };
 		5CF3BBD61AC5B68D00DC632A /* ResultsListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD51AC5B68D00DC632A /* ResultsListData.m */; };
 		5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBDF1AC5C16E00DC632A /* CifService.m */; };
-		5CF3BBE21AC5C3D300DC632A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF3BBE11AC5C3D200DC632A /* Parse.framework */; };
-		5CF3BBE41AC5C3DD00DC632A /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF3BBE31AC5C3DD00DC632A /* SDWebImage.framework */; };
 		E2DF628A16943FAB0059BBDA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628916943FAB0059BBDA /* UIKit.framework */; };
 		E2DF628C16943FAB0059BBDA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628B16943FAB0059BBDA /* Foundation.framework */; };
 		E2DF628E16943FAB0059BBDA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628D16943FAB0059BBDA /* CoreGraphics.framework */; };
@@ -80,8 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CF3BBE41AC5C3DD00DC632A /* SDWebImage.framework in Frameworks */,
-				5CF3BBE21AC5C3D300DC632A /* Parse.framework in Frameworks */,
 				E2DF628A16943FAB0059BBDA /* UIKit.framework in Frameworks */,
 				E2DF628C16943FAB0059BBDA /* Foundation.framework in Frameworks */,
 				E2DF628E16943FAB0059BBDA /* CoreGraphics.framework in Frameworks */,

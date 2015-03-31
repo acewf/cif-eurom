@@ -28,6 +28,14 @@
 {
     [super viewDidLoad];
     
+    self.title = @"Recipe Book";
+    
+    self.navigationItem.title = @"A custom title";
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                   style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -36,7 +44,7 @@
     NSLog(@" TABLE VIEW DID LOAD");
     
     CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,80);
-    CGRect goBig = CGRectMake(0,125,self.view.frame.size.width,392);
+    CGRect goBig = CGRectMake(0,80,self.view.frame.size.width,392);
     [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
     [UIView animateWithDuration:1.0  animations:^{ self.pickerview.frame = pickerGoSmall; }];
     
@@ -51,9 +59,6 @@
          // ...
      }];
     
-    self.pickerData = @[@"Jornada 1", @"Jornada 2", @"Jornada 3", @"Jornada 4", @"Jornada 5", @"Jornada 6"];
-    self.jorneyChoose.dataSource = self;
-    self.jorneyChoose.delegate = self;
     self.jornyePickerOpen = false;
     
     UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
@@ -129,9 +134,10 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     
     CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,160);
-    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,58);
-    CGRect goSmall = CGRectMake(0,200,self.view.frame.size.width,300);
-    CGRect goBig = CGRectMake(0,95,self.view.frame.size.width,392);
+    CGRect goSmall = CGRectMake(0,160,self.view.frame.size.width,300);
+    
+    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,80);
+    CGRect goBig = CGRectMake(0,80,self.view.frame.size.width,392);
     
     
     if (self.jornyePickerOpen==false && [touch locationInView:self.view].y<120) {
@@ -146,35 +152,7 @@
     return YES;
 }
 
-// The number of columns of data
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
 
-// The number of rows of data
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return _pickerData.count;
-}
-
-// The data to return for the row and component (column) that's being passed in
-- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    //NSLog(@"--this is the choosed-- @%li",(long)row);
-    //NSLog(@" other one %@",_pickerData[row]);
-    return _pickerData[row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    NSNumber * line = [[NSNumber alloc] initWithFloat:row];
-    int value = [line intValue];
-    line = [NSNumber numberWithInt:value + 1];
-    NSLog(@" PICKER VIEW ROW %@",line);
-    NSLog(@" other one %@",_pickerData[row]);
-    //selectedRow = row;
-}
 
 - (IBAction)tooglejornada:(id)sender {
 }

@@ -34,13 +34,12 @@
      usingBlock:^(NSNotification *notification)
      {
          
-         NSLog(@"Notification received!");
-         
-         NSUInteger * counter = [me.listOfGames count];
-         
+         //NSLog(@"Notification received!");
+         //NSUInteger * counter = [me.listOfGames count];
+         //NSLog(@"DONE LOADING %zd",counter);
          self.listGames = me.listOfGames;
          //[self.tableView reloadData];
-         NSLog(@"DONE LOADING %zd",counter);
+         
          // ...
      }];
     

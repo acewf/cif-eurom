@@ -50,7 +50,15 @@ static AppListOfGames *sharedInstance = nil;
      {
          if (data.length > 0 && connectionError == nil)
          {
+             NSDate *currDate = [NSDate date];
+             NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:currDate];
+             NSDate * datetime;
+             NSDateComponents *daycompo;
+             NSMutableArray * sectionGames = [[NSMutableArray alloc] init];
+             self.lisOfDays = [[NSMutableArray alloc] init];
+             
              NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+             
              for (NSDictionary* key in returneddata) {
                  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                  [dateFormatter setDateFormat:@"y-MM-dd HH:mm:ss "];
@@ -70,17 +78,25 @@ static AppListOfGames *sharedInstance = nil;
                  teamAway.img = [key valueForKeyPath:@"TeamAwayImage"];
                  
                  Game *game = [[Game alloc] init];
-                 NSDate * datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
+                 datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
+                 daycompo = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:datetime];
                  
                  [dateFormatter setDateFormat:@"HH:mm"];
                  game.team1Info = teamHome;
                  game.team2Info = teamAway;
                  game.time = [dateFormatter stringFromDate:datetime];
+                 game.day = datetime;
                  game.jornada = [key valueForKeyPath:@"GameJourney"];
                  game.id = [key valueForKeyPath:@"GameId"];
                  
-                 [self.listOfGames addObject:game];
-                 // do stuff
+                 if (([components day]!=[daycompo day]) || ([components month]!=[daycompo month])) {
+                     components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:datetime];
+                     sectionGames = [[NSMutableArray alloc] init];
+                     [sectionGames addObject:game];
+                     [self.lisOfDays addObject:sectionGames];
+                 } else {
+                     [sectionGames addObject:game];
+                 }
              }
              [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationName" object:self.listOfGames];
          }else{
@@ -99,6 +115,7 @@ static AppListOfGames *sharedInstance = nil;
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
     if (jornada) {
+        self.jornadaStr = jornada;
         NSString * urlpath = [NSString stringWithFormat:@"%@%@%@", @"&filter=", jornada, @""];
         urlpath = [serv stringByAppendingString:urlpath];
         serv = [NSMutableString stringWithFormat:@"%@", urlpath];

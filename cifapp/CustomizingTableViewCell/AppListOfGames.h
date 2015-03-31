@@ -10,9 +10,12 @@
 
 @interface AppListOfGames : NSObject
 
+@property (nonatomic,strong) NSMutableArray *lisOfDays;
 @property (nonatomic,strong) NSMutableArray *listOfGames;
 @property (nonatomic,strong) NSMutableArray *listOfTeams;
 @property (nonatomic, copy) NSString *output;
+@property (nonatomic, copy) NSString *jornadaStr;
+@property (atomic) NSInteger *jornada;
 
 + (AppListOfGames *)sharedInstance;
 - (void)callService:(NSMutableString*) service;

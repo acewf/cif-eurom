@@ -11,6 +11,7 @@
 #import "Game.h"
 #import "GameCell.h"
 #import "AppListOfGames.h"
+#import "JorneyItem.h"
 
 
 @interface GamesResultControlerViewController ()
@@ -22,52 +23,91 @@
 
 @implementation GamesResultControlerViewController
 @synthesize menuOptions;
-
+AppListOfGames * me;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Recipe Book";
     
-    self.navigationItem.title = @"A custom title";
+    self.weekDays = [[NSMutableArray alloc] init];
+    [self.weekDays addObject:@"null"];
+    [self.weekDays addObject:@"domingo"];
+    [self.weekDays addObject:@"segunda-feira"];
+    [self.weekDays addObject:@"terça-feira"];
+    [self.weekDays addObject:@"quarta-feira"];
+    [self.weekDays addObject:@"quinta-feira"];
+    [self.weekDays addObject:@"sexta-feira"];
+    [self.weekDays addObject:@"sábado"];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                                   style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
+    
+    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"jornada"];
+    self.navigationbaritem.title = TitlePage;
+    self.openjorney.title = @"open";
+    
+    
+    //[self.UINavigationItem pushNavigationItem:self.navigationItem animated:NO];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    NSLog(@" TABLE VIEW DID LOAD");
     
-    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,80);
-    CGRect goBig = CGRectMake(0,80,self.view.frame.size.width,392);
-    [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
-    [UIView animateWithDuration:1.0  animations:^{ self.pickerview.frame = pickerGoSmall; }];
-    
-    AppListOfGames * me = [AppListOfGames sharedInstance];
+    me = [AppListOfGames sharedInstance];
     
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"notificationName" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
          self.listGames = me.listOfGames;
+         self.daysList = me.lisOfDays;
+         
+         NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"jornada", me.jornadaStr];
+         self.navigationbaritem.title = TitlePage;
+         self.openjorney.title = @"open";
+         
          [self.tableGames reloadData];
          // ...
      }];
     
     self.jornyePickerOpen = false;
     
-    UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
-    [gestureRecognizer setEnabled:YES];
-    [gestureRecognizer setCancelsTouchesInView:NO];
-    [gestureRecognizer setDelaysTouchesBegan:NO];
-    [gestureRecognizer setDelaysTouchesEnded:NO];
-    [gestureRecognizer setDelegate:self];
-    [self.view addGestureRecognizer:gestureRecognizer];
+    self.jorneySelector.delegate = self;
+    self.jorneySelector.dataSource = self;
+    
+    self.listaData = [[NSMutableArray alloc] init];
+    
+    [self.listaData addObject:@"1"];
+    [self.listaData addObject:@"2"];
+    [self.listaData addObject:@"3"];
+    [self.listaData addObject:@"4"];
+    [self.listaData addObject:@"5"];
+    [self.listaData addObject:@"6"];
+    [self.listaData addObject:@"7"];
+    [self.listaData addObject:@"8"];
+    [self.listaData addObject:@"9"];
+    [self.listaData addObject:@"10"];
+    [self.listaData addObject:@"11"];
+    [self.listaData addObject:@"12"];
+    [self.listaData addObject:@"13"];
+    [self.listaData addObject:@"14"];
+    [self.listaData addObject:@"15"];
+    [self.listaData addObject:@"16"];
+    [self.listaData addObject:@"17"];
+    [self.listaData addObject:@"18"];
+    [self.listaData addObject:@"19"];
+    [self.listaData addObject:@"20"];
+    [self.listaData addObject:@"21"];
+    [self.listaData addObject:@"22"];
+    [self.listaData addObject:@"23"];
+    [self.listaData addObject:@"24"];
+    [self.listaData addObject:@"25"];
+    [self.listaData addObject:@"26"];
+    [self.listaData addObject:@"27"];
+    [self.listaData addObject:@"28"];
+    [self.listaData addObject:@"29"];
+    [self.listaData addObject:@"30"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,19 +129,63 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return [self.daysList count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.listGames count];
+    NSMutableArray * item = [self.daysList objectAtIndex:section];
+    return [item count];
+}
+/*
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    
+    NSMutableArray * item = [self.daysList objectAtIndex:section];
+    Game * game = [item objectAtIndex:0];
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:game.day];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"d-MMM-yyyy"];
+    
+    NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
+    
+    return sectionTitle;
+}
+*/
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+    
+    NSMutableArray * item = [self.daysList objectAtIndex:section];
+    Game * game = [item objectAtIndex:0];
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:game.day];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"d-MMM-yyyy"];
+    
+    NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
+    
+    
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    NSString *string =sectionTitle;
+    /* Section header is in 0th index... */
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5]]; //your background color...
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"GameCell";
     GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    Game *game = (self.listGames)[indexPath.row];
+    NSMutableArray * item = [self.daysList objectAtIndex:indexPath.section];
+    
+    
+    Game *game = item[indexPath.row];
     Team * team1 = game.team1Info;
     Team * team2 = game.team2Info;
     
@@ -132,28 +216,65 @@
 
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    
-    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,160);
-    CGRect goSmall = CGRectMake(0,160,self.view.frame.size.width,300);
-    
-    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,80);
-    CGRect goBig = CGRectMake(0,80,self.view.frame.size.width,392);
-    
-    
-    if (self.jornyePickerOpen==false && [touch locationInView:self.view].y<120) {
-        self.jornyePickerOpen=true;
-        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goSmall; }];
-        [UIView animateWithDuration:1.0  animations:^{ self.pickerview.frame = pickerGoBig; }];
-    } else if (self.jornyePickerOpen==true && [touch locationInView:self.view].y>180) {
-        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
-        [UIView animateWithDuration:1.0  animations:^{ self.pickerview.frame = pickerGoSmall; }];
-        self.jornyePickerOpen=false;
-    }
     return YES;
 }
 
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@" COLLECTION VIEW ACTION %@",[self.listaData objectAtIndex:indexPath.row]);
+    
+    [me getfixtures:[self.listaData objectAtIndex:indexPath.row]];
+}
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    NSLog(@" %lu",(unsigned long)[self.listaData count]);
+    return [self.listaData count];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //static NSString *identifier = @"JorneyIdentify";
+    //JorneyItem *ncell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    //NSLog(@" VALOR forItemAtIndexPath: %@",[NSString stringWithFormat:@"%ld", (long)indexPath.row]);
+    //ncell.itemBt.titleLabel.text = @"13";// [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *identifier = @"JorneyIdentify";
+    JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    cell.numerojornada.text = [NSString stringWithFormat:@" %@ ",[self.listaData objectAtIndex:indexPath.row]];
+    
+    return cell;
+}
+
+-(void)jorneyPushed{
+    NSLog(@"Jorney Pushed");
+}
 
 - (IBAction)tooglejornada:(id)sender {
+    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,200);
+    CGRect goSmall = CGRectMake(0,200,self.view.frame.size.width,self.view.frame.size.height-245);
+    
+    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,65);
+    CGRect goBig = CGRectMake(0,65,self.view.frame.size.width,self.view.frame.size.height-100);
+    
+    if (self.jornyePickerOpen) {
+        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
+        [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
+        self.jornyePickerOpen=false;
+        self.openjorney.title = @"open";
+    } else {
+        self.jornyePickerOpen=true;
+        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goSmall; }];
+        [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoBig; }];
+        self.openjorney.title = @"close";
+    }
 }
 @end

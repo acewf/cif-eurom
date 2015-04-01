@@ -57,7 +57,7 @@ AppListOfGames * me;
     me = [AppListOfGames sharedInstance];
     
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"notificationName" object:nil queue:mainQueue
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"gamesResult" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
          self.listGames = me.listOfGames;

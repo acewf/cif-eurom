@@ -8,9 +8,9 @@
 
 #import "AppListOfGames.h"
 #import "Team.h"
+#import "TeamData.h"
 #import "Game.h"
-#import "CifService.h"
-#import <Parse/Parse.h>
+#import "PlayerData.h"
 
 
 static AppListOfGames *sharedInstance = nil;
@@ -32,21 +32,32 @@ static AppListOfGames *sharedInstance = nil;
     }
     return self;
 }
-
-- (void)callService:(NSMutableString*) service
+/////////////////////////////////////////////////
+ ////////////// FIXTURES RETURN /////////////////
+/////////////////////////////////////////////////
+-(NSMutableArray*)getfixtures:(NSString*)jornada{
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
+    
+    if (jornada) {
+        self.jornadaStr = jornada;
+        NSString * urlpath = [NSString stringWithFormat:@"%@%@%@", @"&filter=", jornada, @""];
+        urlpath = [serv stringByAppendingString:urlpath];
+        serv = [NSMutableString stringWithFormat:@"%@", urlpath];
+    }
+    [self callServiceFixtures:serv];
+    
+    
+    return self.listOfGames;
+}
+- (void)callServiceFixtures:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
-    //service
     
-    NSLog(@" urlpath %@ ",urlpath);
-
+    
     NSURL *url = [NSURL URLWithString:urlpath];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
      {
          if (data.length > 0 && connectionError == nil)
          {
@@ -98,31 +109,107 @@ static AppListOfGames *sharedInstance = nil;
                      [sectionGames addObject:game];
                  }
              }
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationName" object:self.listOfGames];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:self.listOfGames];
          }else{
              NSLog(@"error");
          };
      }];
 }
 
-- (NSMutableArray*)getTeams
+/////////////////////////////////////////////////
+////////////// TEAM RANKING RETURN //////////////
+/////////////////////////////////////////////////
+
+- (NSMutableArray*)getPlayersRanking
 {
-    self.listOfTeams = [[NSMutableArray alloc] init];
-    
-    return self.listOfGames;
+    self.listOfRankingPlayers = [[NSMutableArray alloc] init];
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-players"];
+    [self callServicePlayersRanking:serv];
+    return self.listOfRankingPlayers;
 }
--(NSMutableArray*)getfixtures:(NSString*)jornada{
-    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
+
+- (void)callServicePlayersRanking:(NSMutableString*) service
+{
+    NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    NSString * urlpath = [path stringByAppendingString:service];
     
-    if (jornada) {
-        self.jornadaStr = jornada;
-        NSString * urlpath = [NSString stringWithFormat:@"%@%@%@", @"&filter=", jornada, @""];
-        urlpath = [serv stringByAppendingString:urlpath];
-        serv = [NSMutableString stringWithFormat:@"%@", urlpath];
-    }
-    [self callService:serv];
     
-    return self.listOfGames;
+    NSURL *url = [NSURL URLWithString:urlpath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         NSLog(@" valor %lu",(unsigned long)data.length);
+         if (data.length > 0 && connectionError == nil)
+         {
+             self.listOfRankingPlayers = [[NSMutableArray alloc] init];
+             
+             NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+             
+             for (NSDictionary* key in returneddata) {
+                 PlayerData * player = [[PlayerData alloc] init];
+                 
+                 player.playerName = [key valueForKeyPath:@"PlayerName"];
+                 player.goals = [[key valueForKeyPath:@"Goals"] intValue];
+                 player.teamID = [[key valueForKeyPath:@"TeamId"] intValue];
+                 player.playerID = [[key valueForKeyPath:@"PlayerId"] intValue];
+                 
+                 [self.listOfRankingPlayers addObject:player];
+             }
+             NSLog(@" LIST OF PLAYER RANKING LOADED");
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"RankingPlayersBoard" object:self.listOfRankingPlayers];
+         }else{
+             NSLog(@"error");
+         };
+     }];
+}
+
+/////////////////////////////////////////////////
+////////////// TEAM RANKING RETURN //////////////
+/////////////////////////////////////////////////
+
+- (void)callServiceRanking:(NSMutableString*) service
+{
+    NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    NSString * urlpath = [path stringByAppendingString:service];
+    
+    
+    NSURL *url = [NSURL URLWithString:urlpath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         NSLog(@" valor %lu",(unsigned long)data.length);
+         if (data.length > 0 && connectionError == nil)
+         {
+            self.listOfRankingTeams = [[NSMutableArray alloc] init];
+             
+            NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+             
+            for (NSDictionary* key in returneddata) {
+                TeamData * equipa = [[TeamData alloc] init];
+                
+                equipa.teamName = [key valueForKeyPath:@"TeamTitle"];
+                equipa.position = [[key valueForKeyPath:@"Position"] intValue];
+                equipa.played = [[key valueForKeyPath:@"Played"] intValue];
+                equipa.wins = [[key valueForKeyPath:@"Wins"] intValue];
+                equipa.draws = [[key valueForKeyPath:@"Draws"] intValue];
+                equipa.Loses = [[key valueForKeyPath:@"Loses"] intValue];
+                equipa.GoalsFor = [[key valueForKeyPath:@"GoalsFor"] intValue];
+                equipa.points = [[key valueForKeyPath:@"Points"] intValue];
+                
+                [self.listOfRankingTeams addObject:equipa];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ResultBoard" object:self.listOfRankingTeams];
+         }else{
+             NSLog(@"error");
+         };
+     }];
+}
+- (NSMutableArray*)getRanking
+{
+    self.listOfRankingTeams = [[NSMutableArray alloc] init];
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-teams"];
+    [self callServiceRanking:serv];
+    return self.listOfRankingTeams;
 }
 
 @end

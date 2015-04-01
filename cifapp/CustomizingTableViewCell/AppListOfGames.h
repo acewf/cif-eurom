@@ -12,14 +12,21 @@
 
 @property (nonatomic,strong) NSMutableArray *lisOfDays;
 @property (nonatomic,strong) NSMutableArray *listOfGames;
+@property (nonatomic,strong) NSMutableArray *listOfRankingTeams;
+@property (nonatomic,strong) NSMutableArray *listOfRankingPlayers;
 @property (nonatomic,strong) NSMutableArray *listOfTeams;
 @property (nonatomic, copy) NSString *output;
 @property (nonatomic, copy) NSString *jornadaStr;
 @property (atomic) NSInteger *jornada;
 
 + (AppListOfGames *)sharedInstance;
-- (void)callService:(NSMutableString*) service;
--(NSMutableArray*)getTeams;
+
+
+- (void)callServicePlayersRanking:(NSMutableString*) service;
+- (void)callServiceRanking:(NSMutableString*) service;
+- (void)callServiceFixtures:(NSMutableString*) service;
+-(NSMutableArray*)getPlayersRanking;
+-(NSMutableArray*)getRanking;
 -(NSMutableArray*)getfixtures:(NSString*)jornada;
 
 @end

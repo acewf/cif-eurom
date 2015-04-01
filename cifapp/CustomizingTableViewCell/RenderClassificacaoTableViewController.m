@@ -22,7 +22,7 @@ AppListOfGames * me;
     [super viewDidLoad];
     
     
-    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"classifica"];
+    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Classificação"];
     self.navigationbaritem.title = TitlePage;
     
     
@@ -58,6 +58,12 @@ AppListOfGames * me;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

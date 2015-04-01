@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Arthur Knopper. All rights reserved.
 //
 
-#import "AppBestStrikersView.h"
+#import "AppTeamDisciplina.h"
 #import "AppListOfGames.h"
-#import "StrikerCell.h"
-#import "PlayerData.h"
+#import "TeamDisciplina.h"
+#import "TeamData.h"
 
 
-@interface AppBestStrikers ()
+@interface appTeamDisciplina ()
 
 @property(strong,nonatomic)NSArray * menuOptions;
 
 @end
 
-@implementation AppBestStrikers
+@implementation appTeamDisciplina
 @synthesize menuOptions;
 AppListOfGames * me;
 
@@ -39,17 +39,16 @@ AppListOfGames * me;
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     me = [AppListOfGames sharedInstance];
+    self.listDisciplina = [me callServiceDisciplina];
     
-    if ([self.listStrikers count]==0) {
-        self.listStrikers = me.listOfRankingPlayers;
-    }
+    NSLog(@" Lista disciplina %lu",(unsigned long)[self.listDisciplina count]);
     
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"RankingPlayersBoard" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         self.listStrikers = me.listOfRankingPlayers;
-         [self.tableStrikers reloadData];
+         self.listDisciplina = me.listOfRankingPlayers;
+         [self.tableDisciplina reloadData];
          // ...
      }];
     
@@ -61,9 +60,11 @@ AppListOfGames * me;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-  
+-(void)viewWillAppear:(BOOL)animated
+{
+ 
 }
+
 
 #pragma mark - Table view data source
 
@@ -75,19 +76,29 @@ AppListOfGames * me;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.listStrikers count];
+    return [self.listDisciplina count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    StrikerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StrikerCell" forIndexPath:indexPath];
+    TeamDisciplina *cell = [tableView dequeueReusableCellWithIdentifier:@"DisciplinaCell" forIndexPath:indexPath];
     
     
-    PlayerData *player = self.listStrikers[indexPath.row];
+    TeamData *team = self.listDisciplina[indexPath.row];
     
-    cell.playerName.text =  player.playerName;
-    cell.playerGoals.text =  [NSString stringWithFormat:@"%ld", player.goals];
-    cell.teamName.text =[NSString stringWithFormat:@"%ld", player.teamID];
-    cell.playerPosition.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
+    cell.position.text = [NSString stringWithFormat:@"%ld", team.DisciplinePosition];
+    cell.teamName.text = [NSString stringWithFormat:@"%@", team.teamName];
+    cell.amarelos.text = [NSString stringWithFormat:@"%ld", (long)team.yellow];
+    cell.vermelhos.text = [NSString stringWithFormat:@"%ld", (long)team.red];
+    cell.amarelos.text = [NSString stringWithFormat:@"%ld", (long)team.yellow];
+    cell.points.text = [NSString stringWithFormat:@"%ld", (long)team.DisciplinePoints];
+    
+    //cell.position
+    //cell.amarelos
+    //cell.vermelhos
+    //cell.points
+    
+    //cell.position.text =  player.playerName;
+    //cell.teamName.text =  [NSString stringWithFormat:@"%ld", player.goals];
     
     // Configure the cell...
     

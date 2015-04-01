@@ -117,11 +117,7 @@ AppListOfGames * me;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSUInteger * counter = [self.listGames count];
-    NSLog(@"viewWillAppear %zd",counter);
-    NSLog(@" TABLE VIEW DID viewWillAppear");
     
-    [self.tableGames reloadData];
 }
 
 #pragma mark - Table view data source
@@ -169,12 +165,13 @@ AppListOfGames * me;
     NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
     
     
-    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    [label setFont:[UIFont systemFontOfSize:14]];
+    [label setTextAlignment:NSTextAlignmentCenter];
     NSString *string =sectionTitle;
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
-    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5]]; //your background color...
+    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.95]]; //your background color...
     return view;
 }
 

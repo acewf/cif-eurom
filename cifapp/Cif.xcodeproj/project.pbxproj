@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 504F21A11AC8B610004F3F19 /* APPRequest.m */; };
 		5CA7C9DE1AC4743500111B0F /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9DD1AC4743500111B0F /* Game.m */; };
 		5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7C9E01AC480D800111B0F /* AppListOfGames.m */; };
 		5CDFD3A51ACC0CFD00BAF916 /* ResultBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3A41ACC0CFD00BAF916 /* ResultBoard.m */; };
 		5CDFD3AC1ACC2C7E00BAF916 /* AppBestStrikersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3AB1ACC2C7E00BAF916 /* AppBestStrikersView.m */; };
 		5CDFD3B01ACC31FF00BAF916 /* StrikerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3AF1ACC31FF00BAF916 /* StrikerCell.m */; };
 		5CDFD3B41ACC386100BAF916 /* PlayerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3B31ACC386100BAF916 /* PlayerData.m */; };
+		5CDFD3B81ACC513700BAF916 /* TeamDisciplina.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3B71ACC513700BAF916 /* TeamDisciplina.m */; };
+		5CDFD3BC1ACC528E00BAF916 /* AppTeamDisciplina.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */; };
 		5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */; };
 		5CE4D65A1ACAA80200BDEDF8 /* JorneyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */; };
 		5CE4D65F1ACAD8F100BDEDF8 /* iniControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D65E1ACAD8F100BDEDF8 /* iniControler.m */; };
@@ -21,8 +22,6 @@
 		5CF3BBCB1AC5ACC200DC632A /* mini-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */; };
 		5CF3BBCE1AC5B16900DC632A /* RenderClassificacaoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCD1AC5B16900DC632A /* RenderClassificacaoTableViewController.m */; };
 		5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD01AC5B2EB00DC632A /* TeamData.m */; };
-		5CF3BBD61AC5B68D00DC632A /* ResultsListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD51AC5B68D00DC632A /* ResultsListData.m */; };
-		5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBDF1AC5C16E00DC632A /* CifService.m */; };
 		E2DF628A16943FAB0059BBDA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628916943FAB0059BBDA /* UIKit.framework */; };
 		E2DF628C16943FAB0059BBDA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628B16943FAB0059BBDA /* Foundation.framework */; };
 		E2DF628E16943FAB0059BBDA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF628D16943FAB0059BBDA /* CoreGraphics.framework */; };
@@ -39,8 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		504F21A01AC8B610004F3F19 /* APPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPRequest.h; sourceTree = "<group>"; };
-		504F21A11AC8B610004F3F19 /* APPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPRequest.m; sourceTree = "<group>"; };
 		5CA7C9DC1AC4743500111B0F /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		5CA7C9DD1AC4743500111B0F /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		5CA7C9DF1AC480D800111B0F /* AppListOfGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListOfGames.h; sourceTree = "<group>"; };
@@ -53,6 +50,10 @@
 		5CDFD3AF1ACC31FF00BAF916 /* StrikerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StrikerCell.m; path = CustomizingTableViewCell/striker/StrikerCell.m; sourceTree = "<group>"; };
 		5CDFD3B21ACC386100BAF916 /* PlayerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerData.h; path = striker/PlayerData.h; sourceTree = "<group>"; };
 		5CDFD3B31ACC386100BAF916 /* PlayerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerData.m; path = striker/PlayerData.m; sourceTree = "<group>"; };
+		5CDFD3B61ACC513700BAF916 /* TeamDisciplina.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamDisciplina.h; path = teamdisciplina/TeamDisciplina.h; sourceTree = "<group>"; };
+		5CDFD3B71ACC513700BAF916 /* TeamDisciplina.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamDisciplina.m; path = teamdisciplina/TeamDisciplina.m; sourceTree = "<group>"; };
+		5CDFD3BA1ACC528E00BAF916 /* AppTeamDisciplina.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppTeamDisciplina.h; sourceTree = "<group>"; };
+		5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTeamDisciplina.m; sourceTree = "<group>"; };
 		5CE4D6461AC960CD00BDEDF8 /* GamesResultControlerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesResultControlerViewController.h; sourceTree = "<group>"; };
 		5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesResultControlerViewController.m; sourceTree = "<group>"; };
 		5CE4D6581ACAA80200BDEDF8 /* JorneyItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JorneyItem.h; sourceTree = "<group>"; };
@@ -66,10 +67,6 @@
 		5CF3BBCD1AC5B16900DC632A /* RenderClassificacaoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderClassificacaoTableViewController.m; sourceTree = "<group>"; };
 		5CF3BBCF1AC5B2EB00DC632A /* TeamData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamData.h; sourceTree = "<group>"; };
 		5CF3BBD01AC5B2EB00DC632A /* TeamData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamData.m; sourceTree = "<group>"; };
-		5CF3BBD41AC5B68D00DC632A /* ResultsListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsListData.h; sourceTree = "<group>"; };
-		5CF3BBD51AC5B68D00DC632A /* ResultsListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsListData.m; sourceTree = "<group>"; };
-		5CF3BBDE1AC5C16E00DC632A /* CifService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CifService.h; sourceTree = "<group>"; };
-		5CF3BBDF1AC5C16E00DC632A /* CifService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CifService.m; sourceTree = "<group>"; };
 		5CF3BBE11AC5C3D200DC632A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5CF3BBE31AC5C3DD00DC632A /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		E2DF628516943FAB0059BBDA /* Cif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cif.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +108,7 @@
 		5CA7C9E21AC487C000111B0F /* UIObjects */ = {
 			isa = PBXGroup;
 			children = (
+				5CDFD3B51ACC50BB00BAF916 /* TeamDisciplina */,
 				5CDFD3AD1ACC31D600BAF916 /* stikers */,
 				5CE4D6581ACAA80200BDEDF8 /* JorneyItem.h */,
 				5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */,
@@ -135,6 +133,7 @@
 		5CA7C9E51AC56ACA00111B0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CDFD3B91ACC527E00BAF916 /* disciplina */,
 				5CDFD3A61ACC2AC800BAF916 /* BestStrikers */,
 				5CE4D6601ACAE58600BDEDF8 /* detailgame.h */,
 				5CE4D6611ACAE58600BDEDF8 /* detailgame.m */,
@@ -180,6 +179,25 @@
 			name = playerInfo;
 			sourceTree = "<group>";
 		};
+		5CDFD3B51ACC50BB00BAF916 /* TeamDisciplina */ = {
+			isa = PBXGroup;
+			children = (
+				5CDFD3B61ACC513700BAF916 /* TeamDisciplina.h */,
+				5CDFD3B71ACC513700BAF916 /* TeamDisciplina.m */,
+			);
+			name = TeamDisciplina;
+			path = CustomizingTableViewCell;
+			sourceTree = "<group>";
+		};
+		5CDFD3B91ACC527E00BAF916 /* disciplina */ = {
+			isa = PBXGroup;
+			children = (
+				5CDFD3BA1ACC528E00BAF916 /* AppTeamDisciplina.h */,
+				5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */,
+			);
+			name = disciplina;
+			sourceTree = "<group>";
+		};
 		5CF3BBD21AC5B54E00DC632A /* GamesResults */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,20 +241,9 @@
 		5CF3BBD91AC5B70B00DC632A /* factory */ = {
 			isa = PBXGroup;
 			children = (
-				5CF3BBDD1AC5C14800DC632A /* services */,
 				5CF3BBDB1AC5B74300DC632A /* GamesBoard */,
-				5CF3BBDA1AC5B72700DC632A /* ResultsBoard */,
 			);
 			name = factory;
-			sourceTree = "<group>";
-		};
-		5CF3BBDA1AC5B72700DC632A /* ResultsBoard */ = {
-			isa = PBXGroup;
-			children = (
-				5CF3BBD41AC5B68D00DC632A /* ResultsListData.h */,
-				5CF3BBD51AC5B68D00DC632A /* ResultsListData.m */,
-			);
-			name = ResultsBoard;
 			sourceTree = "<group>";
 		};
 		5CF3BBDB1AC5B74300DC632A /* GamesBoard */ = {
@@ -255,17 +262,6 @@
 				E2DF62B016948E0E0059BBDA /* GameCell.m */,
 			);
 			name = GameInfo;
-			sourceTree = "<group>";
-		};
-		5CF3BBDD1AC5C14800DC632A /* services */ = {
-			isa = PBXGroup;
-			children = (
-				504F21A01AC8B610004F3F19 /* APPRequest.h */,
-				504F21A11AC8B610004F3F19 /* APPRequest.m */,
-				5CF3BBDE1AC5C16E00DC632A /* CifService.h */,
-				5CF3BBDF1AC5C16E00DC632A /* CifService.m */,
-			);
-			name = services;
 			sourceTree = "<group>";
 		};
 		E2DF627A16943FAB0059BBDA = {
@@ -404,15 +400,14 @@
 				E2DF62AE16946EF30059BBDA /* AppListTeams.m in Sources */,
 				5CE4D6621ACAE58600BDEDF8 /* detailgame.m in Sources */,
 				5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */,
-				504F21A21AC8B610004F3F19 /* APPRequest.m in Sources */,
-				5CF3BBD61AC5B68D00DC632A /* ResultsListData.m in Sources */,
 				5CA7C9DE1AC4743500111B0F /* Game.m in Sources */,
 				5CE4D65A1ACAA80200BDEDF8 /* JorneyItem.m in Sources */,
-				5CF3BBE01AC5C16E00DC632A /* CifService.m in Sources */,
 				E2DF62B116948E0E0059BBDA /* GameCell.m in Sources */,
+				5CDFD3BC1ACC528E00BAF916 /* AppTeamDisciplina.m in Sources */,
 				5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */,
 				E2DF62B41694CB690059BBDA /* Team.m in Sources */,
 				5CF3BBCE1AC5B16900DC632A /* RenderClassificacaoTableViewController.m in Sources */,
+				5CDFD3B81ACC513700BAF916 /* TeamDisciplina.m in Sources */,
 				5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */,
 				5CDFD3B41ACC386100BAF916 /* PlayerData.m in Sources */,
 				5CDFD3AC1ACC2C7E00BAF916 /* AppBestStrikersView.m in Sources */,

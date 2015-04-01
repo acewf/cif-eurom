@@ -196,8 +196,24 @@ static AppListOfGames *sharedInstance = nil;
                 equipa.GoalsFor = [[key valueForKeyPath:@"GoalsFor"] intValue];
                 equipa.points = [[key valueForKeyPath:@"Points"] intValue];
                 
+                /////////////////////////////////////////////////////////
+                equipa.id = [[key valueForKeyPath:@"TeamId"] intValue];
+                equipa.GoalsDiff = [[key valueForKeyPath:@"GoalsDiff"] intValue];
+                equipa.GoalsAgainst = [[key valueForKeyPath:@"GoalsAgainst"] intValue];
+                equipa.red = [[key valueForKeyPath:@"DisciplineRed"] intValue];
+                equipa.yellow = [[key valueForKeyPath:@"DisciplineYellow"] intValue];
+                equipa.DisciplinePosition = [[key valueForKeyPath:@"DisciplinePosition"] intValue];
+                equipa.DisciplinePoints = [[key valueForKeyPath:@"DisciplinePoints"] intValue];
+                equipa.DisciplinePenaltyPoints = [[key valueForKeyPath:@"DisciplinePenaltyPoints"] intValue];
+                equipa.DisciplineSuspensions = [[key valueForKeyPath:@"DisciplineSuspensions"] intValue];
+                equipa.DisciplinePenalties = [[key valueForKeyPath:@"DisciplinePenalties"] intValue];
+                
+                
                 [self.listOfRankingTeams addObject:equipa];
             }
+             NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES];
+             [self.listOfRankingTeams sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ResultBoard" object:self.listOfRankingTeams];
          }else{
              NSLog(@"error");
@@ -210,6 +226,19 @@ static AppListOfGames *sharedInstance = nil;
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-teams"];
     [self callServiceRanking:serv];
     return self.listOfRankingTeams;
+}
+////////////////////////
+- (NSMutableArray*)callServiceDisciplina{
+    self.listOfTeamsDiscipline = [[NSMutableArray alloc] init];
+    
+    self.listOfTeamsDiscipline =self.listOfRankingTeams;
+    
+    NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"DisciplinePosition" ascending:YES];
+    [self.listOfTeamsDiscipline sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+    
+    
+    
+    return self.listOfTeamsDiscipline;
 }
 
 @end

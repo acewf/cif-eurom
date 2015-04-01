@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSMutableArray *listOfRankingTeams;
 @property (nonatomic,strong) NSMutableArray *listOfRankingPlayers;
 @property (nonatomic,strong) NSMutableArray *listOfTeams;
+@property (nonatomic,strong) NSMutableArray *listOfTeamsDiscipline;
 @property (nonatomic, copy) NSString *output;
 @property (nonatomic, copy) NSString *jornadaStr;
 @property (atomic) NSInteger *jornada;
@@ -25,6 +26,7 @@
 - (void)callServicePlayersRanking:(NSMutableString*) service;
 - (void)callServiceRanking:(NSMutableString*) service;
 - (void)callServiceFixtures:(NSMutableString*) service;
+-(NSMutableArray*)callServiceDisciplina;
 -(NSMutableArray*)getPlayersRanking;
 -(NSMutableArray*)getRanking;
 -(NSMutableArray*)getfixtures:(NSString*)jornada;

@@ -15,6 +15,8 @@
 		5CDFD3B41ACC386100BAF916 /* PlayerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3B31ACC386100BAF916 /* PlayerData.m */; };
 		5CDFD3B81ACC513700BAF916 /* TeamDisciplina.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3B71ACC513700BAF916 /* TeamDisciplina.m */; };
 		5CDFD3BC1ACC528E00BAF916 /* AppTeamDisciplina.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */; };
+		5CDFD3C31ACD44D100BAF916 /* GamesResultTaca.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3C21ACD44D100BAF916 /* GamesResultTaca.m */; };
+		5CDFD3C61ACD7F8300BAF916 /* TacaSections.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3C51ACD7F8300BAF916 /* TacaSections.m */; };
 		5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */; };
 		5CE4D65A1ACAA80200BDEDF8 /* JorneyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */; };
 		5CE4D65F1ACAD8F100BDEDF8 /* iniControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D65E1ACAD8F100BDEDF8 /* iniControler.m */; };
@@ -54,6 +56,10 @@
 		5CDFD3B71ACC513700BAF916 /* TeamDisciplina.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamDisciplina.m; path = teamdisciplina/TeamDisciplina.m; sourceTree = "<group>"; };
 		5CDFD3BA1ACC528E00BAF916 /* AppTeamDisciplina.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppTeamDisciplina.h; sourceTree = "<group>"; };
 		5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppTeamDisciplina.m; sourceTree = "<group>"; };
+		5CDFD3C11ACD44D100BAF916 /* GamesResultTaca.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesResultTaca.h; sourceTree = "<group>"; };
+		5CDFD3C21ACD44D100BAF916 /* GamesResultTaca.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesResultTaca.m; sourceTree = "<group>"; };
+		5CDFD3C41ACD7F8300BAF916 /* TacaSections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TacaSections.h; sourceTree = "<group>"; };
+		5CDFD3C51ACD7F8300BAF916 /* TacaSections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TacaSections.m; sourceTree = "<group>"; };
 		5CE4D6461AC960CD00BDEDF8 /* GamesResultControlerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesResultControlerViewController.h; sourceTree = "<group>"; };
 		5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesResultControlerViewController.m; sourceTree = "<group>"; };
 		5CE4D6581ACAA80200BDEDF8 /* JorneyItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JorneyItem.h; sourceTree = "<group>"; };
@@ -126,6 +132,8 @@
 				5CF3BBD91AC5B70B00DC632A /* factory */,
 				5CF3BBD81AC5B6CF00DC632A /* TeamInfo */,
 				5CF3BBD71AC5B69900DC632A /* GameInfo */,
+				5CDFD3C41ACD7F8300BAF916 /* TacaSections.h */,
+				5CDFD3C51ACD7F8300BAF916 /* TacaSections.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -133,6 +141,7 @@
 		5CA7C9E51AC56ACA00111B0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CDFD3C01ACD44C400BAF916 /* taca */,
 				5CDFD3B91ACC527E00BAF916 /* disciplina */,
 				5CDFD3A61ACC2AC800BAF916 /* BestStrikers */,
 				5CE4D6601ACAE58600BDEDF8 /* detailgame.h */,
@@ -196,6 +205,15 @@
 				5CDFD3BB1ACC528E00BAF916 /* AppTeamDisciplina.m */,
 			);
 			name = disciplina;
+			sourceTree = "<group>";
+		};
+		5CDFD3C01ACD44C400BAF916 /* taca */ = {
+			isa = PBXGroup;
+			children = (
+				5CDFD3C11ACD44D100BAF916 /* GamesResultTaca.h */,
+				5CDFD3C21ACD44D100BAF916 /* GamesResultTaca.m */,
+			);
+			name = taca;
 			sourceTree = "<group>";
 		};
 		5CF3BBD21AC5B54E00DC632A /* GamesResults */ = {
@@ -409,6 +427,8 @@
 				5CF3BBCE1AC5B16900DC632A /* RenderClassificacaoTableViewController.m in Sources */,
 				5CDFD3B81ACC513700BAF916 /* TeamDisciplina.m in Sources */,
 				5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */,
+				5CDFD3C61ACD7F8300BAF916 /* TacaSections.m in Sources */,
+				5CDFD3C31ACD44D100BAF916 /* GamesResultTaca.m in Sources */,
 				5CDFD3B41ACC386100BAF916 /* PlayerData.m in Sources */,
 				5CDFD3AC1ACC2C7E00BAF916 /* AppBestStrikersView.m in Sources */,
 			);

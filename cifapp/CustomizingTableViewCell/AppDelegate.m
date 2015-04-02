@@ -19,7 +19,7 @@
     [me getfixtures:@"21"];
     [me getPlayersRanking];
     [me getRanking];
-    NSLog(@"CALLED SERVICE");
+    [me getCupfixtures];
     
     return YES;
 }

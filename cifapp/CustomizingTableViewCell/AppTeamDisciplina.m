@@ -85,7 +85,7 @@ AppListOfGames * me;
     
     TeamData *team = self.listDisciplina[indexPath.row];
     
-    cell.position.text = [NSString stringWithFormat:@"%ld", team.DisciplinePosition];
+    cell.position.text = [NSString stringWithFormat:@"%ld", (long)team.DisciplinePosition];
     cell.teamName.text = [NSString stringWithFormat:@"%@", team.teamName];
     cell.amarelos.text = [NSString stringWithFormat:@"%ld", (long)team.yellow];
     cell.vermelhos.text = [NSString stringWithFormat:@"%ld", (long)team.red];

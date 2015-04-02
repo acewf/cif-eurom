@@ -10,6 +10,20 @@
 
 @implementation Team
 
+@synthesize goals = _goals;  //Must do this
 
 
+//Setter method
+- (void) setGoals:(int)n {
+    /*
+    if (n<0) {
+        n=0;
+    }
+    */
+    _goals = n;
+}
+//Getter method
+- (NSInteger) goals {
+    return _goals;
+}
 @end

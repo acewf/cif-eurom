@@ -17,4 +17,6 @@
 @property (nonatomic, copy) NSString *jornada;
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, copy) NSDate * day;
+@property (nonatomic, copy) NSString *eliminatoria;
+@property (assign) NSInteger* round;
 @end

@@ -22,6 +22,7 @@
 
 
 @implementation GamesResultControlerViewController
+UICollectionViewCell *Markedcell;
 @synthesize menuOptions;
 AppListOfGames * me;
 
@@ -164,7 +165,7 @@ AppListOfGames * me;
     
     NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
     
-    
+    label.frame = CGRectMake(0,0,view.frame.size.width,40);
     [label setFont:[UIFont systemFontOfSize:14]];
     [label setTextAlignment:NSTextAlignmentCenter];
     NSString *string =sectionTitle;
@@ -187,11 +188,19 @@ AppListOfGames * me;
     Team * team2 = game.team2Info;
     
     cell.team1.text = team1.teamName;
-    cell.goalsteam1.text = [NSString stringWithFormat:@"%ld", team1.goals];
+    NSString * valueGoals = [NSString stringWithFormat:@"%ld", (long)team1.goals];
+    if (team1.goals<0) {
+        valueGoals = [NSString stringWithFormat:@"-"];
+    }
+    cell.goalsteam1.text = valueGoals;
     cell.imgteam1.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
     
     cell.team2.text = team2.teamName;
-    cell.goalsteam2.text = [NSString stringWithFormat:@"%ld", team2.goals];
+    valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
+    if (team2.goals<0) {
+        valueGoals = [NSString stringWithFormat:@"-"];
+    }
+    cell.goalsteam2.text = valueGoals;
     cell.imgteam2.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
     
     cell.schedule.text = game.time;
@@ -221,7 +230,17 @@ AppListOfGames * me;
 {
     NSLog(@" COLLECTION VIEW ACTION %@",[self.listaData objectAtIndex:indexPath.row]);
     
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor redColor];
+    
+    Markedcell = cell;
+    
     [me getfixtures:[self.listaData objectAtIndex:indexPath.row]];
+}
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor clearColor];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -237,17 +256,14 @@ AppListOfGames * me;
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //static NSString *identifier = @"JorneyIdentify";
-    //JorneyItem *ncell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    //NSLog(@" VALOR forItemAtIndexPath: %@",[NSString stringWithFormat:@"%ld", (long)indexPath.row]);
-    //ncell.itemBt.titleLabel.text = @"13";// [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"JorneyIdentify";
     JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.numerojornada.text = [NSString stringWithFormat:@" %@ ",[self.listaData objectAtIndex:indexPath.row]];
-    
+        
     return cell;
 }
 

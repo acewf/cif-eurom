@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface GamesResultControlerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UINavigationBarDelegate,UINavigationControllerDelegate>
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *openjorneys;
-
 - (IBAction)tooglejornada:(id)sender;
 -(void)jorneyPushed;
 

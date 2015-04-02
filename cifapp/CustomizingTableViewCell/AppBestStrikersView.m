@@ -10,6 +10,7 @@
 #import "AppListOfGames.h"
 #import "StrikerCell.h"
 #import "PlayerData.h"
+#import "Team.h"
 
 
 @interface AppBestStrikers ()
@@ -21,6 +22,7 @@
 @implementation AppBestStrikers
 @synthesize menuOptions;
 AppListOfGames * me;
+NSMutableDictionary * equipas;
 
 - (void)viewDidLoad
 {
@@ -62,7 +64,11 @@ AppListOfGames * me;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  
+    equipas = [[NSMutableDictionary alloc] init];
+    for (Team*key in me.listOfRankingTeams) {
+         NSString * keyValue = [NSString stringWithFormat:@"%ld", (long)key.id];
+      [equipas setValue:key.teamName forKey:keyValue];
+    }
 }
 
 #pragma mark - Table view data source
@@ -81,13 +87,12 @@ AppListOfGames * me;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     StrikerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StrikerCell" forIndexPath:indexPath];
     
-    
     PlayerData *player = self.listStrikers[indexPath.row];
-    
+    NSString * keyValue = [NSString stringWithFormat:@"%ld", (long)player.teamID];
     cell.playerName.text =  player.playerName;
-    cell.playerGoals.text =  [NSString stringWithFormat:@"%ld", player.goals];
-    cell.teamName.text =[NSString stringWithFormat:@"%ld", player.teamID];
-    cell.playerPosition.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
+    cell.playerGoals.text =  [NSString stringWithFormat:@"%ld", (long)player.goals];
+    cell.teamName.text =[NSString stringWithFormat:@"%@", [equipas objectForKey:keyValue]];
+    cell.playerPosition.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
     
     // Configure the cell...
     

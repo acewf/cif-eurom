@@ -24,7 +24,6 @@
     //////////////////////////////////////////////////
     // APPLISTOFGAMES --> /Model/factory/GamesBoard //
     /////////////////////////////////////////////////
-    NSLog(@"did APPLISTOFGAMES:APPLISTOFGAMES::APPLISTOFGAMES:APPLISTOFGAMES run view loaded");
     
     AppListOfGames * me = [AppListOfGames sharedInstance];
     
@@ -86,11 +85,11 @@
     Team * team2 = game.team2Info;
     
     cell.team1.text = team1.teamName;
-    cell.goalsteam1.text = [NSString stringWithFormat:@"%ld", team1.goals];
+    cell.goalsteam1.text = [NSString stringWithFormat:@"%ld", (long)team1.goals];
     cell.imgteam1.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
     
     cell.team2.text = team2.teamName;
-    cell.goalsteam2.text = [NSString stringWithFormat:@"%ld", team2.goals];
+    cell.goalsteam2.text = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     cell.imgteam2.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
     
     //NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

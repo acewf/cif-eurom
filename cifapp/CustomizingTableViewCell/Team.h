@@ -12,7 +12,7 @@
 
 @property (assign) NSInteger id;
 @property (nonatomic, copy) NSString *teamName;
-@property (assign) NSInteger goals;
+@property (nonatomic) NSInteger goals;
 @property (nonatomic, copy) NSString *img;
 @property (nonatomic, copy) NSString *teamId;
 

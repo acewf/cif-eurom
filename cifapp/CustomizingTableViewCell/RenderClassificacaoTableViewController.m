@@ -89,12 +89,12 @@ AppListOfGames * me;
     TeamData *team = self.listResults[indexPath.row];
     
     cell.teamName.text =  team.teamName;
-    cell.teamTotalGames.text =  [NSString stringWithFormat:@"%ld", team.played];
-    cell.teamPoints.text = [NSString stringWithFormat:@"%ld", team.points];
-    cell.teamWins.text = [NSString stringWithFormat:@"%ld", team.wins];
-    cell.teamPosition.text = [NSString stringWithFormat:@"%ld", team.position];
-    cell.teamDraws.text = [NSString stringWithFormat:@"%ld", team.draws];
-    cell.teamLoses.text = [NSString stringWithFormat:@"%ld", team.loses];
+    cell.teamTotalGames.text =  [NSString stringWithFormat:@"%ld", (long)team.played];
+    cell.teamPoints.text = [NSString stringWithFormat:@"%ld", (long)team.points];
+    cell.teamWins.text = [NSString stringWithFormat:@"%ld", (long)team.wins];
+    cell.teamPosition.text = [NSString stringWithFormat:@"%ld", (long)team.position];
+    cell.teamDraws.text = [NSString stringWithFormat:@"%ld", (long)team.draws];
+    cell.teamLoses.text = [NSString stringWithFormat:@"%ld", (long)team.loses];
     // Configure the cell...
     
     return cell;

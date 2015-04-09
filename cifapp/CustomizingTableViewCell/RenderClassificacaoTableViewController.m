@@ -21,6 +21,7 @@ AppListOfGames * me;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Classificação"];
     self.navigationbaritem.title = TitlePage;
@@ -36,34 +37,15 @@ AppListOfGames * me;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"ResultBoard" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         NSLog(@" RENDER CLASSIFICA %lu",(unsigned long)[me.listOfRankingTeams count]);
-         self.listResults = me.listOfRankingTeams;
-         
-         NSString * TitlePage = [NSString stringWithFormat:@"%@", @"classificação"];
-         self.navigationbaritem.title = TitlePage;
-         
-         [self.tableResultBoard reloadData];
-         // ...
+         [self renderTableList];
      }];
-    
-    
-    
-    //////////////////////////////////////////////////
-    // APPLISTOFGAMES --> /Model/factory/ResultsBoard //
-    /////////////////////////////////////////////////
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self renderTableList];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-
+-(void)renderTableList{
+    self.listResults = me.listOfRankingTeams;
+    [self.tableResultBoard reloadData];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -71,7 +53,6 @@ AppListOfGames * me;
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
@@ -85,9 +66,7 @@ AppListOfGames * me;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ResultBoard *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell" forIndexPath:indexPath];
-    
     TeamData *team = self.listResults[indexPath.row];
-    
     cell.teamName.text =  team.teamName;
     cell.teamTotalGames.text =  [NSString stringWithFormat:@"%ld", (long)team.played];
     cell.teamPoints.text = [NSString stringWithFormat:@"%ld", (long)team.points];
@@ -95,7 +74,6 @@ AppListOfGames * me;
     cell.teamPosition.text = [NSString stringWithFormat:@"%ld", (long)team.position];
     cell.teamDraws.text = [NSString stringWithFormat:@"%ld", (long)team.draws];
     cell.teamLoses.text = [NSString stringWithFormat:@"%ld", (long)team.loses];
-    // Configure the cell...
     
     return cell;
 }

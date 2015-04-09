@@ -26,20 +26,12 @@ NSMutableDictionary * equipas;
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Melhores Marcadores"];
     self.navigationbaritem.title = TitlePage;
-    
-    
-    //[self.UINavigationItem pushNavigationItem:self.navigationItem animated:NO];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     me = [AppListOfGames sharedInstance];
     
     if ([self.listStrikers count]==0) {
@@ -50,11 +42,16 @@ NSMutableDictionary * equipas;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"RankingPlayersBoard" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         self.listStrikers = me.listOfRankingPlayers;
-         [self.tableStrikers reloadData];
-         // ...
+         [self renderTableList];
      }];
     
+    [self renderTableList];
+    
+}
+
+-(void)renderTableList{
+    self.listStrikers = me.listOfRankingPlayers;
+    [self.tableStrikers reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,6 +67,7 @@ NSMutableDictionary * equipas;
       [equipas setValue:key.teamName forKey:keyValue];
     }
 }
+
 
 #pragma mark - Table view data source
 
@@ -93,8 +91,6 @@ NSMutableDictionary * equipas;
     cell.playerGoals.text =  [NSString stringWithFormat:@"%ld", (long)player.goals];
     cell.teamName.text =[NSString stringWithFormat:@"%@", [equipas objectForKey:keyValue]];
     cell.playerPosition.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
-    
-    // Configure the cell...
     
     return cell;
 }

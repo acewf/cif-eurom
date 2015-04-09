@@ -14,13 +14,13 @@
 
 
 //Setter method
-- (void) setGoals:(int)n {
+- (void) setGoals:(NSInteger)n {
     /*
     if (n<0) {
         n=0;
     }
     */
-    _goals = n;
+    _goals = (int)n;
 }
 //Getter method
 - (NSInteger) goals {

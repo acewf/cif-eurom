@@ -5,13 +5,14 @@
 //  Created by Rodrigo Amado on 30/03/15.
 //  Copyright (c) 2015 Arthur Knopper. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "GamesResultControlerViewController.h"
 #import "Team.h"
 #import "Game.h"
 #import "GameCell.h"
 #import "AppListOfGames.h"
 #import "JorneyItem.h"
+
 
 
 @interface GamesResultControlerViewController ()
@@ -23,13 +24,15 @@
 
 @implementation GamesResultControlerViewController
 UICollectionViewCell *Markedcell;
+NSInteger *  indexCell;
+NSInteger *  MarkedIndexCell;
 @synthesize menuOptions;
 AppListOfGames * me;
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     self.weekDays = [[NSMutableArray alloc] init];
     [self.weekDays addObject:@"null"];
@@ -41,36 +44,24 @@ AppListOfGames * me;
     [self.weekDays addObject:@"sexta-feira"];
     [self.weekDays addObject:@"sábado"];
     
+    MarkedIndexCell = -1;
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
-    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"jornada"];
+    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Jornada"];
     self.navigationbaritem.title = TitlePage;
-    self.openjorney.title = @"open";
-    
-    
-    //[self.UINavigationItem pushNavigationItem:self.navigationItem animated:NO];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     me = [AppListOfGames sharedInstance];
-    
+    indexCell = me.jornada;
+        
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"gamesResult" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         self.listGames = me.listOfGames;
-         self.daysList = me.lisOfDays;
-         
-         NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"jornada", me.jornadaStr];
-         self.navigationbaritem.title = TitlePage;
-         self.openjorney.title = @"open";
-         
-         [self.tableGames reloadData];
-         // ...
+         [self renderTableList];
      }];
+    
+    [self renderTableList];
     
     self.jornyePickerOpen = false;
     
@@ -109,16 +100,22 @@ AppListOfGames * me;
     [self.listaData addObject:@"28"];
     [self.listaData addObject:@"29"];
     [self.listaData addObject:@"30"];
+    
+}
+
+-(void)renderTableList{
+    self.listGames = me.listOfGames;
+    self.daysList = me.lisOfDays;
+    
+    NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
+    self.navigationbaritem.title = TitlePage;
+    [self.tableGames reloadData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    
 }
 
 #pragma mark - Table view data source
@@ -134,22 +131,6 @@ AppListOfGames * me;
     NSMutableArray * item = [self.daysList objectAtIndex:section];
     return [item count];
 }
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    
-    NSMutableArray * item = [self.daysList objectAtIndex:section];
-    Game * game = [item objectAtIndex:0];
-    
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:game.day];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"d-MMM-yyyy"];
-    
-    NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
-    
-    return sectionTitle;
-}
-*/
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -161,7 +142,7 @@ AppListOfGames * me;
     
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:game.day];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"d-MMM-yyyy"];
+    [formatter setDateFormat:@"d MMM yyyy"];
     
     NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
     
@@ -170,6 +151,10 @@ AppListOfGames * me;
     [label setTextAlignment:NSTextAlignmentCenter];
     NSString *string =sectionTitle;
     /* Section header is in 0th index... */
+    
+    UIColor *color = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+    [label setTextColor:color];
+    label.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
     [label setText:string];
     [view addSubview:label];
     [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.95]]; //your background color...
@@ -182,7 +167,6 @@ AppListOfGames * me;
     GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     NSMutableArray * item = [self.daysList objectAtIndex:indexPath.section];
     
-    
     Game *game = item[indexPath.row];
     Team * team1 = game.team1Info;
     Team * team2 = game.team2Info;
@@ -194,7 +178,6 @@ AppListOfGames * me;
     }
     cell.goalsteam1.text = valueGoals;
     cell.imgteam1.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
-    
     cell.team2.text = team2.teamName;
     valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     if (team2.goals<0) {
@@ -202,7 +185,6 @@ AppListOfGames * me;
     }
     cell.goalsteam2.text = valueGoals;
     cell.imgteam2.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
-    
     cell.schedule.text = game.time;
     
     return cell;
@@ -211,36 +193,43 @@ AppListOfGames * me;
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)closeCollectionView:(id)sender{
     
-    //NSString *identifier = [NSString stringWithFormat:@"%@", [self.menuOptions objectAtIndex:indexPath.row]];
-    //UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,0);
+    CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     
-    NSLog(@" TABLE VIEW DID SELECT INDEX ");
+    [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
+    [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
+    self.jornyePickerOpen=false;
+    //self.openjorney.title = @"open";
+    
 }
-
-
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    return YES;
-}
-
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@" COLLECTION VIEW ACTION %@",[self.listaData objectAtIndex:indexPath.row]);
-    
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
+    MarkedIndexCell = indexPath.row;
+    static NSString *identifier = @"JorneyIdentify";
+    JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    [cell.numerojornada.layer setCornerRadius:cell.frame.size.width/2];
+    [cell.numerojornada.layer setMasksToBounds:YES];
+    [cell.numerojornada.layer setBorderWidth:1.0f];
+    [cell.numerojornada.layer setBorderColor:[[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1] CGColor]];
     
     Markedcell = cell;
-    
+    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(closeCollectionView:) userInfo:nil repeats:NO];
     [me getfixtures:[self.listaData objectAtIndex:indexPath.row]];
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundColor = [UIColor clearColor];
+    static NSString *identifier = @"JorneyIdentify";
+    JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    //UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.numerojornada.textColor = [UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1];
+    //cell.backgroundView.frame.size.width = 80f;
+    [cell.numerojornada.layer setCornerRadius:0.0f];
+    [cell.numerojornada.layer setMasksToBounds:NO];
+    [cell.numerojornada.layer setBorderWidth:0.0f];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -250,44 +239,57 @@ AppListOfGames * me;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@" %lu",(unsigned long)[self.listaData count]);
     return [self.listaData count];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"JorneyIdentify";
     JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    cell.numerojornada.text = [NSString stringWithFormat:@" %@ ",[self.listaData objectAtIndex:indexPath.row]];
-        
+    cell.numerojornada.text = [NSString stringWithFormat:@"%@ ",[self.listaData objectAtIndex:indexPath.row]];
+    cell.numerojornada.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
+    cell.numerojornada.textColor = [UIColor blackColor];
+    
+    [cell.numerojornada.layer setCornerRadius:0.0f];
+    [cell.numerojornada.layer setMasksToBounds:YES];
+    [cell.numerojornada.layer setBorderWidth:0.0f];
+
+    
+    if ((int)indexCell==((int)indexPath.row+1)) {
+        cell.numerojornada.textColor = [UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1];
+    }
+    if ((int)MarkedIndexCell==((int)indexPath.row)) {
+        //cell.numerojornada.textColor = [UIColor blackColor];
+        [cell.numerojornada.layer setCornerRadius:cell.numerojornada.frame.size.width/2];
+        [cell.numerojornada.layer setMasksToBounds:YES];
+        [cell.numerojornada.layer setBorderWidth:1.0f];
+        [cell.numerojornada.layer setBorderColor:[[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1] CGColor]];
+    }
+    
     return cell;
 }
 
+#pragma mark - UI HANDLER
 -(void)jorneyPushed{
     NSLog(@"Jorney Pushed");
 }
 
 - (IBAction)tooglejornada:(id)sender {
-    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,200);
-    CGRect goSmall = CGRectMake(0,200,self.view.frame.size.width,self.view.frame.size.height-245);
+    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,150);
+    CGRect goSmall = CGRectMake(0,150,self.view.frame.size.width,self.view.frame.size.height-150);
     
     CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,65);
-    CGRect goBig = CGRectMake(0,65,self.view.frame.size.width,self.view.frame.size.height-100);
+    CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     
     if (self.jornyePickerOpen) {
         [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
         [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
         self.jornyePickerOpen=false;
-        self.openjorney.title = @"open";
+        //self.openjorney.title = @"open";
     } else {
         self.jornyePickerOpen=true;
         [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goSmall; }];
         [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoBig; }];
-        self.openjorney.title = @"close";
+        //self.openjorney.title = @"close";
     }
 }
 @end

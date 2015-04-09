@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppListTeams: UITableView
+@interface AppListTeams: UIResponder <UIApplicationDelegate>
 
 @property (nonatomic,strong) NSMutableArray *listGames;
-
 
 
 @end

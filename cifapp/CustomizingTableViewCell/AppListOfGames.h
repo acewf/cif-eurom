@@ -7,8 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Reachability.h"
 
 @interface AppListOfGames : NSObject
+
+@property(strong) Reachability * googleReach;
+@property(strong) Reachability * localWiFiReach;
+@property(strong) Reachability * internetConnectionReach;
+
+
 
 @property (nonatomic,strong) NSMutableArray *lisOfDays;
 @property (nonatomic,strong) NSMutableArray *listOfGames;
@@ -23,11 +30,11 @@
 
 + (AppListOfGames *)sharedInstance;
 
-
 - (void)callServicePlayersRanking:(NSMutableString*) service;
 - (void)callServiceRanking:(NSMutableString*) service;
 - (void)callServiceFixtures:(NSMutableString*) service;
 - (void)callServiceCupFixtures:(NSMutableString*) service;
+-(void)initReachability;
 
 -(NSMutableArray*)callServiceDisciplina;
 -(NSMutableArray*)getPlayersRanking;

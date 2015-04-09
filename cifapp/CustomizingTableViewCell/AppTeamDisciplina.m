@@ -24,19 +24,12 @@ AppListOfGames * me;
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     
-    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Melhores Marcadores"];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
+    
+    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Taça Disciplina"];
     self.navigationbaritem.title = TitlePage;
-    
-    
-    //[self.UINavigationItem pushNavigationItem:self.navigationItem animated:NO];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     me = [AppListOfGames sharedInstance];
     self.listDisciplina = [me callServiceDisciplina];
@@ -47,11 +40,15 @@ AppListOfGames * me;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"RankingPlayersBoard" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         self.listDisciplina = me.listOfRankingPlayers;
-         [self.tableDisciplina reloadData];
-         // ...
+        [self renderTableList];
      }];
     
+    [self renderTableList];
+}
+
+-(void)renderTableList{
+    //self.listDisciplina = me.listOfRankingPlayers;
+    [self.tableDisciplina reloadData];
 }
 
 - (void)didReceiveMemoryWarning

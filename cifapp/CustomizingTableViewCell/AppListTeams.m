@@ -14,6 +14,7 @@
 
 @interface AppListTeams ()
 
+
 @end
 
 @implementation AppListTeams
@@ -26,8 +27,6 @@
     /////////////////////////////////////////////////
     
     AppListOfGames * me = [AppListOfGames sharedInstance];
-    
-    
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"notificationName" object:nil queue:mainQueue
      usingBlock:^(NSNotification *notification)
@@ -41,7 +40,9 @@
     NSInteger * total = [me.listOfGames count];
     NSLog(@"APP LIST TEAM View did load %zd",total);
     //self.listGames = [me getfixtures];
+    
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     NSLog(@" RUN AppListTeams.m viewWillAppear");

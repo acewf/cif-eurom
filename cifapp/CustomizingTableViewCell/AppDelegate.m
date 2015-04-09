@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "AppListOfGames.h"
 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -16,10 +17,7 @@
     // Override point for customization after application launch.
     
     AppListOfGames * me = [AppListOfGames sharedInstance];
-    [me getfixtures:@"21"];
-    [me getPlayersRanking];
-    [me getRanking];
-    [me getCupfixtures];
+    [me initReachability];
     
     return YES;
 }

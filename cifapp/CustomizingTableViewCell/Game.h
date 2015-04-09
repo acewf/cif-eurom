@@ -19,4 +19,5 @@
 @property (nonatomic, copy) NSDate * day;
 @property (nonatomic, copy) NSString *eliminatoria;
 @property (assign) NSInteger* round;
+@property (assign) NSInteger* firstOfDay;
 @end

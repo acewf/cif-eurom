@@ -12,6 +12,7 @@
 #import "GameCell.h"
 #import "AppListOfGames.h"
 #import "JorneyItem.h"
+#import "PreloadedImgs.h"
 
 
 
@@ -34,6 +35,10 @@ AppListOfGames * me;
 {
     [super viewDidLoad];
     
+    NSLog(@" games result view loaded ");
+    
+    [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
+    
     self.weekDays = [[NSMutableArray alloc] init];
     [self.weekDays addObject:@"null"];
     [self.weekDays addObject:@"domingo"];
@@ -43,6 +48,21 @@ AppListOfGames * me;
     [self.weekDays addObject:@"quinta-feira"];
     [self.weekDays addObject:@"sexta-feira"];
     [self.weekDays addObject:@"sábado"];
+    
+    self.MonthNames = [[NSMutableArray alloc] init];
+    [self.MonthNames addObject:@"null"];
+    [self.MonthNames addObject:@"Janeiro"];
+    [self.MonthNames addObject:@"Fevereiro"];
+    [self.MonthNames addObject:@"Março"];
+    [self.MonthNames addObject:@"Abril"];
+    [self.MonthNames addObject:@"Maio"];
+    [self.MonthNames addObject:@"Junho"];
+    [self.MonthNames addObject:@"Julho"];
+    [self.MonthNames addObject:@"Agosto"];
+    [self.MonthNames addObject:@"Setembro"];
+    [self.MonthNames addObject:@"Outbro"];
+    [self.MonthNames addObject:@"Novembro"];
+    [self.MonthNames addObject:@"Dezembro"];
     
     MarkedIndexCell = -1;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
@@ -107,6 +127,23 @@ AppListOfGames * me;
     self.listGames = me.listOfGames;
     self.daysList = me.lisOfDays;
     
+    self.imgsData =[[NSMutableArray alloc] init];
+    
+    for (int i=0; i<[self.daysList count]; i++) {
+        NSMutableArray * item = [self.daysList objectAtIndex:i];
+        NSMutableArray * valuesInSection = [[NSMutableArray alloc] init];
+        for (int inc=0; inc<[item count]; inc++) {
+            Game *game = item[inc];
+            Team * team1 = game.team1Info;
+            Team * team2 = game.team2Info;
+            PreloadedImgs * teams = [[PreloadedImgs alloc] init];
+            teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
+            teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
+            [valuesInSection addObject:teams];
+        }
+         [self.imgsData addObject:valuesInSection];
+    }
+    
     NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
     self.navigationbaritem.title = TitlePage;
     [self.tableGames reloadData];
@@ -134,8 +171,8 @@ AppListOfGames * me;
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 00, tableView.frame.size.width, 50)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
     
     NSMutableArray * item = [self.daysList objectAtIndex:section];
     Game * game = [item objectAtIndex:0];
@@ -146,7 +183,7 @@ AppListOfGames * me;
     
     NSString * sectionTitle = [NSString stringWithFormat:@"%@ %@", [self.weekDays objectAtIndex:[components weekday]], [formatter stringFromDate:game.day]];
     
-    label.frame = CGRectMake(0,0,view.frame.size.width,40);
+    label.frame = CGRectMake(0,17,view.frame.size.width,40);
     [label setFont:[UIFont systemFontOfSize:14]];
     [label setTextAlignment:NSTextAlignmentCenter];
     NSString *string =sectionTitle;
@@ -164,27 +201,35 @@ AppListOfGames * me;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"GameCell";
-    GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
     NSMutableArray * item = [self.daysList objectAtIndex:indexPath.section];
+    NSMutableArray * imgBase = [self.imgsData objectAtIndex:indexPath.section];
+    
+    PreloadedImgs * baseInfo = imgBase[indexPath.row];
     
     Game *game = item[indexPath.row];
     Team * team1 = game.team1Info;
     Team * team2 = game.team2Info;
     
     cell.team1.text = team1.teamName;
+    
     NSString * valueGoals = [NSString stringWithFormat:@"%ld", (long)team1.goals];
     if (team1.goals<0) {
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     cell.goalsteam1.text = valueGoals;
-    cell.imgteam1.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
+    cell.imgteam1.image = baseInfo.team1;
     cell.team2.text = team2.teamName;
     valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     if (team2.goals<0) {
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     cell.goalsteam2.text = valueGoals;
-    cell.imgteam2.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
+    cell.imgteam2.image = baseInfo.team2;
     cell.schedule.text = game.time;
     
     return cell;
@@ -198,8 +243,8 @@ AppListOfGames * me;
     CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,0);
     CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     
-    [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
-    [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
+    [UITableView animateWithDuration:.5  animations:^{ self.tableGames.frame = goBig; }];
+    [UIView animateWithDuration:.5  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
     self.jornyePickerOpen=false;
     //self.openjorney.title = @"open";
     
@@ -277,19 +322,15 @@ AppListOfGames * me;
     CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,150);
     CGRect goSmall = CGRectMake(0,150,self.view.frame.size.width,self.view.frame.size.height-150);
     
-    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,65);
     CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     
     if (self.jornyePickerOpen) {
-        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goBig; }];
-        [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
+        [UITableView animateWithDuration:0.5  animations:^{ self.tableGames.frame = goBig; }];
         self.jornyePickerOpen=false;
-        //self.openjorney.title = @"open";
     } else {
         self.jornyePickerOpen=true;
-        [UITableView animateWithDuration:1.0  animations:^{ self.tableGames.frame = goSmall; }];
-        [UIView animateWithDuration:1.0  animations:^{ self.jorneySelector.frame = pickerGoBig; }];
-        //self.openjorney.title = @"close";
+        [UITableView animateWithDuration:0.5  animations:^{ self.tableGames.frame = goSmall; }];
+        [UIView animateWithDuration:0.5  animations:^{ self.jorneySelector.frame = pickerGoBig; }];
     }
 }
 @end

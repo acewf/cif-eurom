@@ -75,8 +75,6 @@ static AppListOfGames *sharedInstance = nil;
     self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
     AppListOfGames * pointer = self;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    [pointer initWithoutWebServices];
     
     self.googleReach.reachableBlock = ^(Reachability * reachability)
     {
@@ -89,7 +87,7 @@ static AppListOfGames *sharedInstance = nil;
             ///// DO SOMETHING
             NSString * temp = [NSString stringWithFormat:@"InternetConnection A1_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
             NSLog(@"%@", temp);
-            [pointer initWebServices];
+            //[pointer initWebServices];
         }];
     };
     
@@ -97,13 +95,23 @@ static AppListOfGames *sharedInstance = nil;
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE A2_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
         NSLog(@"%@", temp);
+        [pointer initWithoutWebServices];
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
             NSString * temp = [NSString stringWithFormat:@"InternetConnection A2_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
             NSLog(@"%@", temp);
+            
             //[pointer alertme:temp];
         });
     };
+    
+    if([self.googleReach isReachable]){
+        NSLog(@" IN BOUND");
+        [pointer initWebServices];
+    } else{
+        NSLog(@" OUT BOUND");
+        [pointer initWithoutWebServices];
+    }
     
     [self.googleReach startNotifier];
     
@@ -164,7 +172,7 @@ static AppListOfGames *sharedInstance = nil;
             NSString * temp = [NSString stringWithFormat:@"LocalWIFI A5_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
             NSLog(@"%@", temp);
             
-            //[pointer initWebServices];
+            [pointer initWebServices];
         });
     };
     
@@ -181,6 +189,21 @@ static AppListOfGames *sharedInstance = nil;
     };
     
     [self.internetConnectionReach startNotifier];
+    
+    // Allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Tell the reachability that we DON'T want to be reachable on 3G/EDGE/CDMA
+    reach.reachableOnWWAN = NO;
+    
+    // Here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    [reach startNotifier];
 }
 
 
@@ -521,7 +544,7 @@ static AppListOfGames *sharedInstance = nil;
         equipa.played = [[key valueForKeyPath:@"Played"] intValue];
         equipa.wins = [[key valueForKeyPath:@"Wins"] intValue];
         equipa.draws = [[key valueForKeyPath:@"Draws"] intValue];
-        equipa.Loses = [[key valueForKeyPath:@"Loses"] intValue];
+        equipa.loses = [[key valueForKeyPath:@"Loses"] intValue];
         equipa.GoalsFor = [[key valueForKeyPath:@"GoalsFor"] intValue];
         equipa.points = [[key valueForKeyPath:@"Points"] intValue];
         
@@ -554,9 +577,8 @@ static AppListOfGames *sharedInstance = nil;
 }
 ////////////////////////
 - (NSMutableArray*)callServiceDisciplina{
-    self.listOfTeamsDiscipline = [[NSMutableArray alloc] init];
-    
-    self.listOfTeamsDiscipline =self.listOfRankingTeams;
+    self.listOfTeamsDiscipline = [[NSMutableArray alloc] initWithArray:self.listOfRankingTeams];
+    //self.listOfTeamsDiscipline =self.listOfRankingTeams;
     
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"DisciplinePosition" ascending:YES];
     [self.listOfTeamsDiscipline sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];

@@ -12,7 +12,10 @@
 @property (strong, nonatomic) IBOutlet UINavigationItem *navigationbaritem;
 @property (nonatomic,strong) NSMutableArray *daysList;
 @property (nonatomic,strong) NSMutableArray *weekDays;
+@property (nonatomic,strong) NSMutableArray *MonthNames;
 
+
+@property (nonatomic,strong) NSMutableArray *imgsData;
 @property (nonatomic,strong) NSMutableArray *listCupGames;
 @property (nonatomic,strong) NSMutableArray *listaData;
 @property (strong, nonatomic) IBOutlet UITableView *tableGames;

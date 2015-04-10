@@ -21,6 +21,10 @@ AppListOfGames * me;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@" view did load Largura view: %f",self.view.frame.size.width);
+    
+    [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Classificação"];
@@ -65,8 +69,13 @@ AppListOfGames * me;
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ResultBoard *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell" forIndexPath:indexPath];
+    NSString *cellIdentifier = @"ResultCell";
+    ResultBoard *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     TeamData *team = self.listResults[indexPath.row];
+    if (cell == nil) {
+        cell = [[ResultBoard alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
     cell.teamName.text =  team.teamName;
     cell.teamTotalGames.text =  [NSString stringWithFormat:@"%ld", (long)team.played];
     cell.teamPoints.text = [NSString stringWithFormat:@"%ld", (long)team.points];

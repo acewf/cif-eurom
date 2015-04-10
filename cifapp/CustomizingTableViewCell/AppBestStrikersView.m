@@ -28,6 +28,8 @@ NSMutableDictionary * equipas;
 {
     [super viewDidLoad];
     
+    [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Melhores Marcadores"];

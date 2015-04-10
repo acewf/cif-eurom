@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5C02B0FE1AD3D8FD0006A2A6 /* icon-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C02B0FD1AD3D8FD0006A2A6 /* icon-menu.png */; };
 		5C02B0FF1AD3E33C0006A2A6 /* PTS55F.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C02B0FB1AD3038C0006A2A6 /* PTS55F.ttf */; };
 		5C02B1001AD3E33C0006A2A6 /* PTS75F.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C02B0FC1AD3038C0006A2A6 /* PTS75F.ttf */; };
+		5C4645111AD83A0E00210F7A /* PreloadedImgs.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4645101AD83A0E00210F7A /* PreloadedImgs.m */; };
 		5C69A59A1AD52F7600C94249 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C69A5991AD52F7600C94249 /* Reachability.m */; };
 		5C69A59C1AD5322300C94249 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C69A59B1AD5322300C94249 /* SystemConfiguration.framework */; };
 		5C6A6A321AD58E3F0072CA67 /* UITabBarBookmarks_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6A6A311AD58E3F0072CA67 /* UITabBarBookmarks_2x.png */; };
@@ -38,7 +38,6 @@
 		5CDFD3C61ACD7F8300BAF916 /* TacaSections.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFD3C51ACD7F8300BAF916 /* TacaSections.m */; };
 		5CE4D6481AC960CD00BDEDF8 /* GamesResultControlerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */; };
 		5CE4D65A1ACAA80200BDEDF8 /* JorneyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */; };
-		5CE4D65F1ACAD8F100BDEDF8 /* iniControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE4D65E1ACAD8F100BDEDF8 /* iniControler.m */; };
 		5CF3BBCB1AC5ACC200DC632A /* mini-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */; };
 		5CF3BBCE1AC5B16900DC632A /* RenderClassificacaoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBCD1AC5B16900DC632A /* RenderClassificacaoTableViewController.m */; };
 		5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3BBD01AC5B2EB00DC632A /* TeamData.m */; };
@@ -59,7 +58,8 @@
 /* Begin PBXFileReference section */
 		5C02B0FB1AD3038C0006A2A6 /* PTS55F.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PTS55F.ttf; sourceTree = "<group>"; };
 		5C02B0FC1AD3038C0006A2A6 /* PTS75F.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PTS75F.ttf; sourceTree = "<group>"; };
-		5C02B0FD1AD3D8FD0006A2A6 /* icon-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-menu.png"; sourceTree = "<group>"; };
+		5C46450F1AD83A0E00210F7A /* PreloadedImgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreloadedImgs.h; path = CustomizingTableViewCell/PreloadedImgs.h; sourceTree = "<group>"; };
+		5C4645101AD83A0E00210F7A /* PreloadedImgs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreloadedImgs.m; path = CustomizingTableViewCell/PreloadedImgs.m; sourceTree = "<group>"; };
 		5C69A5981AD52F7600C94249 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		5C69A5991AD52F7600C94249 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5C69A59B1AD5322300C94249 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -101,8 +101,6 @@
 		5CE4D6471AC960CD00BDEDF8 /* GamesResultControlerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesResultControlerViewController.m; sourceTree = "<group>"; };
 		5CE4D6581ACAA80200BDEDF8 /* JorneyItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JorneyItem.h; sourceTree = "<group>"; };
 		5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JorneyItem.m; sourceTree = "<group>"; };
-		5CE4D65D1ACAD8F100BDEDF8 /* iniControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iniControler.h; sourceTree = "<group>"; };
-		5CE4D65E1ACAD8F100BDEDF8 /* iniControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iniControler.m; sourceTree = "<group>"; };
 		5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini-logo.png"; sourceTree = "<group>"; };
 		5CF3BBCC1AC5B16900DC632A /* RenderClassificacaoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderClassificacaoTableViewController.h; sourceTree = "<group>"; };
 		5CF3BBCD1AC5B16900DC632A /* RenderClassificacaoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderClassificacaoTableViewController.m; sourceTree = "<group>"; };
@@ -175,6 +173,8 @@
 				5CE4D6591ACAA80200BDEDF8 /* JorneyItem.m */,
 				5CDFD3A21ACC0CBA00BAF916 /* resultBoard */,
 				5CF3BBDC1AC5B77700DC632A /* GameInfo */,
+				5C46450F1AD83A0E00210F7A /* PreloadedImgs.h */,
+				5C4645101AD83A0E00210F7A /* PreloadedImgs.m */,
 			);
 			name = UIObjects;
 			path = ..;
@@ -368,17 +368,14 @@
 		E2DF628F16943FAB0059BBDA /* Cif */ = {
 			isa = PBXGroup;
 			children = (
-				5C02B0FD1AD3D8FD0006A2A6 /* icon-menu.png */,
-				5C02B0FB1AD3038C0006A2A6 /* PTS55F.ttf */,
-				5C02B0FC1AD3038C0006A2A6 /* PTS75F.ttf */,
 				E2DF629816943FAB0059BBDA /* AppDelegate.h */,
 				E2DF629916943FAB0059BBDA /* AppDelegate.m */,
 				E2DF62A116943FAB0059BBDA /* MainStoryboard.storyboard */,
-				5CE4D65D1ACAD8F100BDEDF8 /* iniControler.h */,
-				5CE4D65E1ACAD8F100BDEDF8 /* iniControler.m */,
 				5CA7C9E51AC56ACA00111B0F /* Views */,
 				5CA7C9E31AC56A4900111B0F /* model */,
 				5CF3BBCA1AC5ACC200DC632A /* mini-logo.png */,
+				5C02B0FB1AD3038C0006A2A6 /* PTS55F.ttf */,
+				5C02B0FC1AD3038C0006A2A6 /* PTS75F.ttf */,
 				5C6A6A671AD6C0480072CA67 /* imgs */,
 				5CA7C9E21AC487C000111B0F /* UIObjects */,
 				E2DF629016943FAB0059BBDA /* Supporting Files */,
@@ -429,6 +426,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Arthur Knopper";
+				TargetAttributes = {
+					E2DF628416943FAB0059BBDA = {
+						DevelopmentTeam = LF2VLEG8RN;
+					};
+				};
 			};
 			buildConfigurationList = E2DF627F16943FAB0059BBDA /* Build configuration list for PBXProject "Cif" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -471,7 +473,6 @@
 				E2DF629E16943FAB0059BBDA /* Default@2x.png in Resources */,
 				E2DF62A016943FAB0059BBDA /* Default-568h@2x.png in Resources */,
 				5C6A6A761AD6C05C0072CA67 /* disciplina.png in Resources */,
-				5C02B0FE1AD3D8FD0006A2A6 /* icon-menu.png in Resources */,
 				E2DF62A316943FAB0059BBDA /* MainStoryboard.storyboard in Resources */,
 				5C6A6A321AD58E3F0072CA67 /* UITabBarBookmarks_2x.png in Resources */,
 				5C6A6A341AD59ABF0072CA67 /* UITabBarBookmarksRed_2x.png in Resources */,
@@ -487,7 +488,6 @@
 			files = (
 				5CDFD3A51ACC0CFD00BAF916 /* ResultBoard.m in Sources */,
 				E2DF629616943FAB0059BBDA /* main.m in Sources */,
-				5CE4D65F1ACAD8F100BDEDF8 /* iniControler.m in Sources */,
 				E2DF629A16943FAB0059BBDA /* AppDelegate.m in Sources */,
 				5CDFD3B01ACC31FF00BAF916 /* StrikerCell.m in Sources */,
 				5CA7C9E11AC480D800111B0F /* AppListOfGames.m in Sources */,
@@ -500,6 +500,7 @@
 				5C69A59A1AD52F7600C94249 /* Reachability.m in Sources */,
 				5CF3BBCE1AC5B16900DC632A /* RenderClassificacaoTableViewController.m in Sources */,
 				5CDFD3B81ACC513700BAF916 /* TeamDisciplina.m in Sources */,
+				5C4645111AD83A0E00210F7A /* PreloadedImgs.m in Sources */,
 				5CF3BBD11AC5B2EB00DC632A /* TeamData.m in Sources */,
 				5CDFD3C61ACD7F8300BAF916 /* TacaSections.m in Sources */,
 				5CDFD3C31ACD44D100BAF916 /* GamesResultTaca.m in Sources */,
@@ -585,6 +586,8 @@
 			buildSettings = {
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -594,6 +597,8 @@
 				INFOPLIST_FILE = "CustomizingTableViewCell/Cif-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Cif;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -603,6 +608,8 @@
 			buildSettings = {
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -612,6 +619,8 @@
 				INFOPLIST_FILE = "CustomizingTableViewCell/Cif-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Cif;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

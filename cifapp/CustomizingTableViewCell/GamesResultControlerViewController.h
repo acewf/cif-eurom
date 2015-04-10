@@ -18,7 +18,9 @@
 
 @property (nonatomic,strong) NSMutableArray *daysList;
 @property (nonatomic,strong) NSMutableArray *weekDays;
+@property (nonatomic,strong) NSMutableArray *MonthNames;
 
+@property (nonatomic,strong) NSMutableArray *imgsData;
 @property (nonatomic,strong) NSMutableArray *listGames;
 @property (nonatomic,strong) NSArray *pickerData;
 @property (nonatomic,strong) NSMutableArray *listaData;

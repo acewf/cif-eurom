@@ -26,6 +26,8 @@ AppListOfGames * me;
 {
     [super viewDidLoad];
     
+    [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PTSans-Regular" size:20],NSFontAttributeName,[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1],NSForegroundColorAttributeName, nil]];
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Taça Disciplina"];
@@ -33,8 +35,6 @@ AppListOfGames * me;
     
     me = [AppListOfGames sharedInstance];
     self.listDisciplina = [me callServiceDisciplina];
-    
-    NSLog(@" Lista disciplina %lu",(unsigned long)[self.listDisciplina count]);
     
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"RankingPlayersBoard" object:nil queue:mainQueue
@@ -78,8 +78,6 @@ AppListOfGames * me;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TeamDisciplina *cell = [tableView dequeueReusableCellWithIdentifier:@"DisciplinaCell" forIndexPath:indexPath];
-    
-    
     TeamData *team = self.listDisciplina[indexPath.row];
     
     cell.position.text = [NSString stringWithFormat:@"%ld", (long)team.DisciplinePosition];
@@ -88,16 +86,6 @@ AppListOfGames * me;
     cell.vermelhos.text = [NSString stringWithFormat:@"%ld", (long)team.red];
     cell.amarelos.text = [NSString stringWithFormat:@"%ld", (long)team.yellow];
     cell.points.text = [NSString stringWithFormat:@"%ld", (long)team.DisciplinePoints];
-    
-    //cell.position
-    //cell.amarelos
-    //cell.vermelhos
-    //cell.points
-    
-    //cell.position.text =  player.playerName;
-    //cell.teamName.text =  [NSString stringWithFormat:@"%ld", player.goals];
-    
-    // Configure the cell...
     
     return cell;
 }

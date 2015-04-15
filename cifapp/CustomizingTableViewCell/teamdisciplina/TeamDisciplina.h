@@ -14,5 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *amarelos;
 @property (strong, nonatomic) IBOutlet UILabel *vermelhos;
 @property (strong, nonatomic) IBOutlet UILabel *points;
+@property (strong, nonatomic) IBOutlet UILabel *lastupdate;
 
 @end

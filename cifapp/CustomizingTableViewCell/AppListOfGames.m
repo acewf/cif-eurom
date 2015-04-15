@@ -30,7 +30,7 @@ static AppListOfGames *sharedInstance = nil;
 }
 
 -(void)initWebServices{
-    [self getfixtures:@"21"];
+    [self getfixtures];//:@"21"
     [self getPlayersRanking];
     [self getRanking];
     [self getCupfixtures];
@@ -43,10 +43,8 @@ static AppListOfGames *sharedInstance = nil;
     NSData *data_player_ranking = [userDefaults objectForKey:@"data_player_ranking"];
     NSData *data_ranking = [userDefaults objectForKey:@"data_ranking"];
     
-    self.jornada = 22;
-    self.jornadaStr = @"22";
     if (dataFixtures!=Nil) {
-        [self processFixtures:dataFixtures];
+        [self processFixturesAll:dataFixtures];
     }
     if (data_cup_fixtures!=Nil) {
         [self processCupFixtures:data_cup_fixtures];
@@ -78,38 +76,36 @@ static AppListOfGames *sharedInstance = nil;
     
     self.googleReach.reachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE A1_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+        //NSString * temp = [NSString stringWithFormat:@"GOOGLE A1_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
+        //NSLog(@"%@", temp);
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
         // this uses NSOperationQueue mainQueue
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             ///// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"InternetConnection A1_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
-            NSLog(@"%@", temp);
-            //[pointer initWebServices];
+            //NSString * temp = [NSString stringWithFormat:@"InternetConnection A1_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
+            //NSLog(@"%@", temp);
+            [pointer initWebServices];
         }];
     };
     
     self.googleReach.unreachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE A2_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+        //NSString * temp = [NSString stringWithFormat:@"GOOGLE A2_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        //NSLog(@"%@", temp);
         [pointer initWithoutWebServices];
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"InternetConnection A2_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"InternetConnection A2_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
+            //NSLog(@"%@", temp);
             
             //[pointer alertme:temp];
         });
     };
-    
+    [pointer initWithoutWebServices];
     if([self.googleReach isReachable]){
-        NSLog(@" IN BOUND");
         [pointer initWebServices];
     } else{
-        NSLog(@" OUT BOUND");
         [pointer initWithoutWebServices];
     }
     
@@ -128,14 +124,12 @@ static AppListOfGames *sharedInstance = nil;
     
     self.localWiFiReach.reachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+        //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
+        //NSLog(@"%@", temp);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
-            NSLog(@"%@", temp);
-            
+            //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
             [pointer initWebServices];
         });
     };
@@ -147,8 +141,8 @@ static AppListOfGames *sharedInstance = nil;
         NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"LocalWIFI A4_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
-            [pointer alertme:temp];
+            //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A4_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
+            //[pointer alertme:temp];
         });
     };
     
@@ -171,7 +165,6 @@ static AppListOfGames *sharedInstance = nil;
             //// DO SOMETHING
             NSString * temp = [NSString stringWithFormat:@"LocalWIFI A5_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
             NSLog(@"%@", temp);
-            
             [pointer initWebServices];
         });
     };
@@ -183,8 +176,8 @@ static AppListOfGames *sharedInstance = nil;
         NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"InternetConnection A6_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
-            [pointer alertme:temp];
+            //NSString * temp = [NSString stringWithFormat:@"InternetConnection A6_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
+            //[pointer alertme:temp];
         });
     };
     
@@ -210,6 +203,7 @@ static AppListOfGames *sharedInstance = nil;
 -(void)reachabilityChanged:(NSNotification*)note
 {
     Reachability * reach = [note object];
+    
     if(reach == self.googleReach)
     {
         if([reach isReachable])
@@ -260,12 +254,133 @@ static AppListOfGames *sharedInstance = nil;
     }
     return self;
 }
+
+
+/////////////////////////////////////////////////
+////////////// FIXTURES RETURN /////////////////
+/////////////////////////////////////////////////
+-(NSMutableArray*)getfixtures{
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
+    
+    NSString * urlpath = [NSString stringWithFormat:@"%@", @""];
+    urlpath = [serv stringByAppendingString:urlpath];
+    serv = [NSMutableString stringWithFormat:@"%@", urlpath];
+    [self callServiceFixturesAll:serv];
+    
+    return self.listOfGames;
+}
+- (void)callServiceFixturesAll:(NSMutableString*) service
+{
+    NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    NSString * urlpath = [path stringByAppendingString:service];
+    
+    
+    NSLog(@" url %@",urlpath);
+    
+    NSURL *url = [NSURL URLWithString:urlpath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             [self processFixturesAll:data];
+         }else{
+             NSLog(@"error callServiceFixtures");
+         };
+     }];
+}
+-(void)processFixturesAll:(NSData*)data{
+    self.fixturesgroup = [[NSMutableArray alloc] init];
+    NSDate *currDate = [NSDate date];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:currDate];
+    NSDate * datetime;
+    NSDateComponents *daycompo;
+    NSMutableArray * sectionGames = [[NSMutableArray alloc] init];
+    self.lisOfDays = [[NSMutableArray alloc] init];
+    NSMutableArray * tempArray = [[NSMutableArray alloc] init];
+    NSMutableArray * gamesByJornada = [[NSMutableArray alloc] init];
+    int jornadaActual = 0;
+    
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:data forKey:@"data_fixtures"];
+    
+    NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+    
+    for (NSDictionary* key in returneddata) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"y-MM-dd HH:mm:ss "];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        
+        
+        Team *teamHome = [[Team alloc] init];
+        teamHome.teamId = [key valueForKeyPath:@"TeamHomeId"];
+        teamHome.teamName = [key valueForKeyPath:@"TeamHomeName"];
+        teamHome.goals = [[key valueForKeyPath:@"TeamHomeScore"] intValue];
+        teamHome.img = [key valueForKeyPath:@"TeamHomeImage"];
+        
+        Team *teamAway = [[Team alloc] init];
+        teamAway.teamId = [key valueForKeyPath:@"TeamAwayId"];
+        teamAway.teamName = [key valueForKeyPath:@"TeamAwayName"];
+        teamAway.goals = [[key valueForKeyPath:@"TeamAwayScore"] intValue];
+        teamAway.img = [key valueForKeyPath:@"TeamAwayImage"];
+        
+        Game *game = [[Game alloc] init];
+        datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
+        daycompo = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:datetime];
+        
+        [dateFormatter setDateFormat:@"HH:mm"];
+        game.team1Info = teamHome;
+        game.team2Info = teamAway;
+        game.time = [dateFormatter stringFromDate:datetime];
+        game.day = datetime;
+        game.jornada = [key valueForKeyPath:@"GameJourney"];
+        game.id = [key valueForKeyPath:@"GameId"];
+        game.played = false;
+        
+        if ((teamHome.goals<0)) {
+            game.played = false;
+            if((self.lastGamePlayed==0)){
+                self.lastGamePlayed = [[key valueForKeyPath:@"GameJourney"] intValue]-1;
+            }
+        } else {
+            game.played = true;
+        }
+        
+        if (jornadaActual!=([game.jornada intValue]-1)) {
+            jornadaActual   = [game.jornada intValue]-1;
+            [gamesByJornada addObject:tempArray];
+            tempArray = [[NSMutableArray alloc] init];
+        }
+        
+        if (([components day]!=[daycompo day]) || ([components month]!=[daycompo month])) {
+            components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:datetime];
+            sectionGames = [[NSMutableArray alloc] init];
+            [sectionGames addObject:game];
+            [tempArray addObject:sectionGames];
+        } else {
+            [sectionGames addObject:game];
+        }
+        
+    }
+    [gamesByJornada addObject:tempArray];
+    self.fixturesgroup = gamesByJornada;
+    self.jornada = self.lastGamePlayed;
+    self.jornadaStr = [NSString stringWithFormat:@"%ld", (long)self.lastGamePlayed];
+    
+    NSLog(@" call gamesresult");
+    
+    NSMutableArray * xxjornada = [gamesByJornada objectAtIndex:self.lastGamePlayed-1];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:xxjornada];
+}
+
+
 /////////////////////////////////////////////////
  ////////////// FIXTURES RETURN /////////////////
 /////////////////////////////////////////////////
--(NSMutableArray*)getfixtures:(NSString*)jornada{
+-(NSMutableArray*)getfixtures:(NSInteger*)jornada{
+    /*
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
-    
     if (jornada) {
         self.jornadaStr = jornada;
         self.jornada = [jornada intValue];
@@ -274,9 +389,12 @@ static AppListOfGames *sharedInstance = nil;
         serv = [NSMutableString stringWithFormat:@"%@", urlpath];
     }
     [self callServiceFixtures:serv];
+    */
     
+    NSMutableArray * xxjornada = [self.fixturesgroup objectAtIndex:jornada];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:xxjornada];
     
-    return self.listOfGames;
+    return xxjornada;
 }
 - (void)callServiceFixtures:(NSMutableString*) service
 {
@@ -351,7 +469,6 @@ static AppListOfGames *sharedInstance = nil;
             [sectionGames addObject:game];
         }
     }
-    NSLog(@"GAMES RESULT OBSERVER CALLED");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:self.lisOfDays];
 }
 
@@ -408,12 +525,15 @@ static AppListOfGames *sharedInstance = nil;
         teamHome.teamName = [key valueForKeyPath:@"TeamHomeName"];
         teamHome.goals = [[key valueForKeyPath:@"TeamHomeScore"] intValue];
         teamHome.img = [key valueForKeyPath:@"TeamHomeImage"];
+        teamHome.penaltis = [[key valueForKeyPath:@"TeamHomeScorePenalties"] intValue];
         
         Team *teamAway = [[Team alloc] init];
         teamAway.teamId = [key valueForKeyPath:@"TeamAwayId"];
         teamAway.teamName = [key valueForKeyPath:@"TeamAwayName"];
         teamAway.goals = [[key valueForKeyPath:@"TeamAwayScore"] intValue];
         teamAway.img = [key valueForKeyPath:@"TeamAwayImage"];
+        
+        teamAway.penaltis = [[key valueForKeyPath:@"TeamAwayScorePenalties"] intValue];
         
         Game *game = [[Game alloc] init];
         datetime = [dateFormatter dateFromString:[key valueForKeyPath:@"GameStartAt"]];
@@ -435,21 +555,17 @@ static AppListOfGames *sharedInstance = nil;
         
         if (!([[dateFormatter stringFromDate:datetime] isEqualToString:[dateFormatter stringFromDate:Comparedatetime]])) {
             game.firstOfDay = 1;
-        }        
-        
+        }
         if (compareRound!=game.round) {
             compareRound = game.round;
-            
             sectionGames = [[NSMutableArray alloc] init];
             [sectionGames addObject:game];
             [self.listOfCupGames addObject:sectionGames];
         } else {
             [sectionGames addObject:game];
         }
-        
         Comparedatetime =datetime;
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesCupResult" object:self.listOfCupGames];
 }
 
@@ -501,6 +617,7 @@ static AppListOfGames *sharedInstance = nil;
         player.goals = [[key valueForKeyPath:@"Goals"] intValue];
         player.teamID = [[key valueForKeyPath:@"TeamId"] intValue];
         player.playerID = [[key valueForKeyPath:@"PlayerId"] intValue];
+        player.lastupdated = [key valueForKeyPath:@"LastUpdatedSchedule"];
         
         [self.listOfRankingPlayers addObject:player];
     }
@@ -559,6 +676,7 @@ static AppListOfGames *sharedInstance = nil;
         equipa.DisciplinePenaltyPoints = [[key valueForKeyPath:@"DisciplinePenaltyPoints"] intValue];
         equipa.DisciplineSuspensions = [[key valueForKeyPath:@"DisciplineSuspensions"] intValue];
         equipa.DisciplinePenalties = [[key valueForKeyPath:@"DisciplinePenalties"] intValue];
+        equipa.lastupdated = [key valueForKeyPath:@"LastUpdatedSchedule"];
         
         
         [self.listOfRankingTeams addObject:equipa];

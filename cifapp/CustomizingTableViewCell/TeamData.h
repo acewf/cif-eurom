@@ -28,5 +28,6 @@
 @property (assign) NSInteger DisciplineSuspensions;
 @property (assign) NSInteger DisciplinePenalties;
 @property (nonatomic, copy) NSString *teamName;
+@property (nonatomic, copy) NSString *lastupdated;
 
 @end

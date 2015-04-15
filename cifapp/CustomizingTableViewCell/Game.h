@@ -20,4 +20,5 @@
 @property (nonatomic, copy) NSString *eliminatoria;
 @property (assign) NSInteger* round;
 @property (assign) NSInteger* firstOfDay;
+@property (assign) BOOL played;
 @end

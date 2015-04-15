@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *playerPosition;
 @property (strong, nonatomic) IBOutlet UILabel *teamName;
 @property (strong, nonatomic) IBOutlet UILabel *playerGoals;
+@property (strong, nonatomic) IBOutlet UILabel *lastupdate;
 
 @end

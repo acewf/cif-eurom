@@ -16,7 +16,7 @@
 @property(strong) Reachability * internetConnectionReach;
 
 
-
+@property (nonatomic,strong) NSMutableArray *fixturesgroup;
 @property (nonatomic,strong) NSMutableArray *lisOfDays;
 @property (nonatomic,strong) NSMutableArray *listOfGames;
 @property (nonatomic,strong) NSMutableArray *listOfCupGames;
@@ -27,6 +27,7 @@
 @property (nonatomic, copy) NSString *output;
 @property (nonatomic, copy) NSString *jornadaStr;
 @property (atomic) NSInteger *jornada;
+@property (atomic) int lastGamePlayed;
 
 + (AppListOfGames *)sharedInstance;
 
@@ -39,7 +40,7 @@
 -(NSMutableArray*)callServiceDisciplina;
 -(NSMutableArray*)getPlayersRanking;
 -(NSMutableArray*)getRanking;
--(NSMutableArray*)getfixtures:(NSString*)jornada;
+-(NSMutableArray*)getfixtures:(NSInteger*)jornada;
 -(NSMutableArray*)getCupfixtures;
 
 @end

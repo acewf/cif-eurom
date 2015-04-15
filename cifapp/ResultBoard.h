@@ -16,5 +16,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *teamDraws;
 @property (strong, nonatomic) IBOutlet UILabel *teamLoses;
 @property (strong, nonatomic) IBOutlet UILabel *teamPosition;
+@property (strong, nonatomic) IBOutlet UILabel *lastupdate;
 
 @end

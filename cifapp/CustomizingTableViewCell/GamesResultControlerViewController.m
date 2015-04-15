@@ -13,8 +13,8 @@
 #import "AppListOfGames.h"
 #import "JorneyItem.h"
 #import "PreloadedImgs.h"
-
-
+//#import "SDWebImageManager.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface GamesResultControlerViewController ()
 
@@ -24,16 +24,20 @@
 
 
 @implementation GamesResultControlerViewController
-UICollectionViewCell *Markedcell;
+JorneyItem *Markedcell;
 NSInteger *  indexCell;
 NSInteger *  MarkedIndexCell;
 @synthesize menuOptions;
 AppListOfGames * me;
+SDWebImageManager *manager;
+
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    manager = [SDWebImageManager sharedManager];
     
     NSLog(@" games result view loaded ");
     
@@ -78,6 +82,8 @@ AppListOfGames * me;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"gamesResult" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
+         NSLog(@" calleddd gamesresult");
+         me.lisOfDays  = notification.object;
          [self renderTableList];
      }];
     
@@ -137,8 +143,10 @@ AppListOfGames * me;
             Team * team1 = game.team1Info;
             Team * team2 = game.team2Info;
             PreloadedImgs * teams = [[PreloadedImgs alloc] init];
-            teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
-            teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
+            teams.img_url1 =[NSURL URLWithString:team1.img];
+            teams.img_url2 =[NSURL URLWithString:team2.img];
+            //teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
+            //teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
             [valuesInSection addObject:teams];
         }
          [self.imgsData addObject:valuesInSection];
@@ -147,6 +155,7 @@ AppListOfGames * me;
     NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
     self.navigationbaritem.title = TitlePage;
     [self.tableGames reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -198,6 +207,9 @@ AppListOfGames * me;
     return view;
 }
 
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"GameCell";
@@ -221,15 +233,21 @@ AppListOfGames * me;
     if (team1.goals<0) {
         valueGoals = [NSString stringWithFormat:@"-"];
     }
+    
+    
+    [cell.imgteam1 setImageWithURL:baseInfo.img_url1 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
+    [cell.imgteam2 setImageWithURL:baseInfo.img_url2 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
+    
+    
     cell.goalsteam1.text = valueGoals;
-    cell.imgteam1.image = baseInfo.team1;
+    //cell.imgteam1.image = baseInfo.team1;
     cell.team2.text = team2.teamName;
     valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     if (team2.goals<0) {
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     cell.goalsteam2.text = valueGoals;
-    cell.imgteam2.image = baseInfo.team2;
+    //cell.imgteam2.image = baseInfo.team2;
     cell.schedule.text = game.time;
     
     return cell;
@@ -239,30 +257,40 @@ AppListOfGames * me;
 #pragma mark - Table view delegate
 
 -(void)closeCollectionView:(id)sender{
-    
-    CGRect pickerGoSmall = CGRectMake(0,0,self.view.frame.size.width,0);
     CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    
-    [UITableView animateWithDuration:.5  animations:^{ self.tableGames.frame = goBig; }];
-    [UIView animateWithDuration:.5  animations:^{ self.jorneySelector.frame = pickerGoSmall; }];
+    [UITableView animateWithDuration:.3  animations:^{ self.tableGames.frame = goBig; }];
     self.jornyePickerOpen=false;
-    //self.openjorney.title = @"open";
-    
 }
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(Markedcell){
+        [Markedcell.numerojornada.layer setCornerRadius:0.0f];
+        [Markedcell.numerojornada.layer setMasksToBounds:YES];
+        [Markedcell.numerojornada.layer setBorderWidth:0.0f];
+    }
     MarkedIndexCell = indexPath.row;
-    static NSString *identifier = @"JorneyIdentify";
-    JorneyItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    [cell.numerojornada.layer setCornerRadius:cell.frame.size.width/2];
+    JorneyItem *cell = (JorneyItem *)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    [cell.numerojornada.layer setCornerRadius:cell.numerojornada.frame.size.width/2];
     [cell.numerojornada.layer setMasksToBounds:YES];
     [cell.numerojornada.layer setBorderWidth:1.0f];
     [cell.numerojornada.layer setBorderColor:[[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1] CGColor]];
     
+  
     Markedcell = cell;
-    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(closeCollectionView:) userInfo:nil repeats:NO];
-    [me getfixtures:[self.listaData objectAtIndex:indexPath.row]];
+    [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(closeCollectionView:) userInfo:nil repeats:NO];
+    
+    int askjornada = [[self.listaData objectAtIndex:indexPath.row] intValue];
+    me.jornada = askjornada;
+    me.jornadaStr = [NSString stringWithFormat:@"%ld", (long)askjornada];
+    [me getfixtures:askjornada-1];
+    
+    NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
+    [self.tableGames selectRowAtIndexPath:scrollIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    //NSMutableArray * xxjornada = [me.fixturesgroup objectAtIndex:askjornada];
+    
+    
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {

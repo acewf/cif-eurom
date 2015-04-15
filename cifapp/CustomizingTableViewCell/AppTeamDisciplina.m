@@ -75,11 +75,35 @@ AppListOfGames * me;
 {
     return [self.listDisciplina count];
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    TeamData *team = self.listDisciplina[[self.listDisciplina count]-1];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    NSString *string =[NSString stringWithFormat:@"%@",team.lastupdated];
+    UIColor *color = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+    [label setTextColor:color];
+    label.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.95]]; //your background color...
+    
+    NSLog(@"section %d",section);
+    /*
+     if(){
+     }
+     */
+    //return the view for the footer
+    return view;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TeamDisciplina *cell = [tableView dequeueReusableCellWithIdentifier:@"DisciplinaCell" forIndexPath:indexPath];
     TeamData *team = self.listDisciplina[indexPath.row];
     
+    cell.lastupdate.alpha = 0;
     cell.position.text = [NSString stringWithFormat:@"%ld", (long)team.DisciplinePosition];
     cell.teamName.text = [NSString stringWithFormat:@"%@", team.teamName];
     cell.amarelos.text = [NSString stringWithFormat:@"%ld", (long)team.yellow];

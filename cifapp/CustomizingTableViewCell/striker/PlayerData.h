@@ -14,6 +14,6 @@
 @property (assign) NSInteger playerID;
 @property (assign) NSInteger goals;
 @property (assign) NSInteger teamID;
-@property (nonatomic, copy) NSString *lastUpdated;
+@property (nonatomic, copy) NSString *lastupdated;
 
 @end

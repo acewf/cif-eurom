@@ -15,5 +15,6 @@
 @property (nonatomic) NSInteger goals;
 @property (nonatomic, copy) NSString *img;
 @property (nonatomic, copy) NSString *teamId;
+@property (nonatomic) NSInteger penaltis;
 
 @end

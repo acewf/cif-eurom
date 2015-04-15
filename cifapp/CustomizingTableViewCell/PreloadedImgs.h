@@ -12,5 +12,7 @@
 
 @property(strong) UIImage * team1;
 @property(strong) UIImage * team2;
+@property(strong) NSURL * img_url1;
+@property(strong) NSURL * img_url2;
 
 @end

@@ -10,6 +10,7 @@
 
 @interface GameCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *daylabel;
+@property (strong, nonatomic) IBOutlet UILabel *penaltis;
 
 @property (weak, nonatomic) IBOutlet UILabel *goalsteam1;
 @property (weak, nonatomic) IBOutlet UILabel *schedule;

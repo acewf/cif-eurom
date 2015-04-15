@@ -13,6 +13,8 @@
 #import "AppListOfGames.h"
 #import "JorneyItem.h"
 #import "PreloadedImgs.h"
+//#import "SDImageCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface GamesResultTaca ()
@@ -25,10 +27,13 @@
 @implementation GamesResultTaca
 @synthesize menuOptions;
 AppListOfGames * me;
+SDWebImageManager *manager;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    manager = [SDWebImageManager sharedManager];
     
     [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
     
@@ -62,7 +67,7 @@ AppListOfGames * me;
     [self.MonthNames addObject:@"Dezembro"];
     
     
-    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Taça"];
+    NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Taça CIF"];
     self.navigationbaritem.title = TitlePage;    
     
     //[self.UINavigationItem pushNavigationItem:self.navigationItem animated:NO];
@@ -105,8 +110,10 @@ AppListOfGames * me;
             Team * team1 = game.team1Info;
             Team * team2 = game.team2Info;
             PreloadedImgs * teams = [[PreloadedImgs alloc] init];
-            teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
-            teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
+            teams.img_url1 =[NSURL URLWithString:team1.img];
+            teams.img_url2 =[NSURL URLWithString:team2.img];
+            //teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
+            //teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
             [valuesInSection addObject:teams];
         }
         [self.imgsData addObject:valuesInSection];
@@ -209,6 +216,16 @@ AppListOfGames * me;
     Team * team1 = game.team1Info;
     Team * team2 = game.team2Info;
     CGFloat defaultPos = 13;
+    
+    if (team1.penaltis>=0) {
+        cell.penaltis.alpha = 1;
+        cell.penaltis.text = [NSString stringWithFormat:@"(%ld - %ld)", (long)team1.penaltis, (long)team2.penaltis];
+    } else {
+        cell.penaltis.alpha = 0;
+    }
+    
+    
+    
     if ((int)game.firstOfDay==1) {
         CGFloat altura = 70;
         
@@ -238,6 +255,8 @@ AppListOfGames * me;
         cell.schedule.frame =  CGRectMake(cell.schedule.frame.origin.x, defaultPos+altura, cell.schedule.frame.size.width, cell.schedule.frame.size.height);
         cell.vslabel.frame =  CGRectMake(cell.vslabel.frame.origin.x, defaultPos+altura, cell.vslabel.frame.size.width, cell.vslabel.frame.size.height);
         
+        cell.penaltis.frame =  CGRectMake(cell.penaltis.frame.origin.x, defaultPos+22+altura, cell.penaltis.frame.size.width, cell.penaltis.frame.size.height);
+        
         cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, 60+altura);
     } else {
         cell.daylabel.alpha = 0;
@@ -249,6 +268,7 @@ AppListOfGames * me;
         cell.imgteam2.frame =  CGRectMake(cell.imgteam2.frame.origin.x, defaultPos-6, cell.imgteam2.frame.size.width, cell.imgteam2.frame.size.height);
         cell.schedule.frame =  CGRectMake(cell.schedule.frame.origin.x, defaultPos, cell.schedule.frame.size.width, cell.schedule.frame.size.height);
         cell.vslabel.frame =  CGRectMake(cell.vslabel.frame.origin.x, defaultPos, cell.vslabel.frame.size.width, cell.vslabel.frame.size.height);
+        cell.penaltis.frame =  CGRectMake(cell.penaltis.frame.origin.x, defaultPos+28, cell.penaltis.frame.size.width, cell.penaltis.frame.size.height);
     }
     
     NSString * valueGoals = [NSString stringWithFormat:@"%ld", (long)team1.goals];
@@ -256,9 +276,12 @@ AppListOfGames * me;
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     
+    [cell.imgteam1 setImageWithURL:baseInfo.img_url1 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
+    [cell.imgteam2 setImageWithURL:baseInfo.img_url2 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
+    
     cell.team1.text = team1.teamName;
     cell.goalsteam1.text = valueGoals;
-    cell.imgteam1.image = baseInfo.team1;
+    //cell.imgteam1.image = baseInfo.team1;
     
     valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     if (team2.goals<0) {
@@ -267,7 +290,7 @@ AppListOfGames * me;
     
     cell.team2.text = team2.teamName;
     cell.goalsteam2.text = valueGoals;
-    cell.imgteam2.image = baseInfo.team2;
+    //cell.imgteam2.image = baseInfo.team2;
     
     cell.schedule.text = game.time;
     

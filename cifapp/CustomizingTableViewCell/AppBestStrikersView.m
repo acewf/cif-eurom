@@ -83,16 +83,40 @@ NSMutableDictionary * equipas;
 {
     return [self.listStrikers count];
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    PlayerData *team = self.listStrikers[[self.listStrikers count]-1];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    NSString *string =[NSString stringWithFormat:@"%@",team.lastupdated];
+    UIColor *color = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+    [label setTextColor:color];
+    label.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.95]]; //your background color...
+    
+    NSLog(@"section %d",section);
+    /*
+     if(){
+     }
+     */
+    //return the view for the footer
+    return view;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     StrikerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StrikerCell" forIndexPath:indexPath];
     
+    cell.lastupdate.alpha = 0;
     PlayerData *player = self.listStrikers[indexPath.row];
     NSString * keyValue = [NSString stringWithFormat:@"%ld", (long)player.teamID];
     cell.playerName.text =  player.playerName;
     cell.playerGoals.text =  [NSString stringWithFormat:@"%ld", (long)player.goals];
     cell.teamName.text =[NSString stringWithFormat:@"%@", [equipas objectForKey:keyValue]];
-    cell.playerPosition.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
+    cell.playerPosition.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row+1];
     
     return cell;
 }

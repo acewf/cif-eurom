@@ -151,9 +151,11 @@ SDWebImageManager *manager;
         }
          [self.imgsData addObject:valuesInSection];
     }
-    
-    NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
-    self.navigationbaritem.title = TitlePage;
+    if (me.jornadaStr!=NULL) {
+        NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
+        self.navigationbaritem.title = TitlePage;
+    }
+   
     [self.tableGames reloadData];
     
 }

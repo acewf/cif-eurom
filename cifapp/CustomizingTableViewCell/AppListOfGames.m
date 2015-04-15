@@ -55,12 +55,16 @@ static AppListOfGames *sharedInstance = nil;
     if (data_ranking!=Nil) {
         [self processRanking:data_ranking];
     } else {
-        [self alertme:@"NO DATA CACHED"];
+        NSLog(@"ABC %hhd",[self.googleReach isReachable]);
+        if(![self.googleReach isReachable]){
+            [self alertme:@"Verifique a sua ligação"];
+        }
     }
 }
 
 -(void)alertme:(NSString*)message{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ERROR" message:message delegate:self cancelButtonTitle:@"Delete" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MESSAGE" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
     [alert show];
 }
 
@@ -102,7 +106,7 @@ static AppListOfGames *sharedInstance = nil;
             //[pointer alertme:temp];
         });
     };
-    [pointer initWithoutWebServices];
+    //[pointer initWithoutWebServices];
     if([self.googleReach isReachable]){
         [pointer initWebServices];
     } else{

@@ -11,14 +11,13 @@
 
 
 @implementation AppDelegate
+AppListOfGames * me ;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     
-    AppListOfGames * me = [AppListOfGames sharedInstance];
-    [me initReachability];
-    
+    me = [AppListOfGames sharedInstance];
     return YES;
 }
 							

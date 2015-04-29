@@ -1,4 +1,3 @@
-//
 //  GamesResultControlerViewController.m
 //  Cif
 //
@@ -16,12 +15,12 @@
 //#import "SDWebImageManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+
 @interface GamesResultControlerViewController ()
 
 @property(strong,nonatomic)NSArray * menuOptions;
 
 @end
-
 
 @implementation GamesResultControlerViewController
 JorneyItem *Markedcell;
@@ -30,17 +29,50 @@ NSInteger *  MarkedIndexCell;
 @synthesize menuOptions;
 AppListOfGames * me;
 SDWebImageManager *manager;
+UIRefreshControl *refreshControl;
 
+-(void)refreshView{
+    NSLog(@"DEVE FAZER UPDATE?!?!");
+    if([me.googleReach isReachable]){
+        //NSLog(@"Sim");
+        
+        [refreshControl beginRefreshing];
+        [self.tableGames setContentOffset:CGPointMake(0, -50) animated:YES];
+        [me initWebServices];
+        
+    } else {
+        //NSLog(@"Não");
+        [refreshControl endRefreshing];
+    }
+}
+-(void)updateFields{
+    [me updateAllData];
+}
 
+-(void)changeNetWorkStatus{
+    if([me.googleReach isReachable]){
+       // NSLog(@"HAS NETWORK");
+    } else {
+       // NSLog(@"NO NETWORK");
+    }
+    [refreshControl endRefreshing];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.imgsData =[[NSMutableArray alloc] init];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshView) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeNetWorkStatus) name:@"NetWorkStatus" object:nil];
+    
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(updateFields) forControlEvents:UIControlEventValueChanged];
+    refreshControl.backgroundColor = [UIColor whiteColor];
+    refreshControl.tintColor = [UIColor blackColor];
+    [self.tableGames addSubview:refreshControl];
+    
     manager = [SDWebImageManager sharedManager];
-    
-    NSLog(@" games result view loaded ");
-    
     [self.tabBarController.tabBar setTintColor:[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1]];
     
     self.weekDays = [[NSMutableArray alloc] init];
@@ -73,27 +105,36 @@ SDWebImageManager *manager;
     
     NSString * TitlePage = [NSString stringWithFormat:@"%@", @"Jornada"];
     self.navigationbaritem.title = TitlePage;
-    
     me = [AppListOfGames sharedInstance];
     indexCell = me.jornada;
-        
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     
+    [refreshControl beginRefreshing];
+    [self.tableGames setContentOffset:CGPointMake(0, self.tableGames.contentOffset.y-refreshControl.frame.size.height) animated:YES];
+    
+    
+    NSLog(@"Criado item que recebe info");
     [[NSNotificationCenter defaultCenter] addObserverForName:@"gamesResult" object:nil queue:mainQueue
                                                   usingBlock:^(NSNotification *notification)
      {
-         NSLog(@" calleddd gamesresult");
+         if (indexCell==0) {
+             indexCell = me.jornada;
+         }
          me.lisOfDays  = notification.object;
          [self renderTableList];
      }];
-    
-    [self renderTableList];
+    if ((int)me.jornada!=0) {
+        if (indexCell==0) {
+            indexCell = me.jornada;
+        }
+        me.lisOfDays  = me.jornadaInfo;
+        [self renderTableList];
+    }
+    //NSLog(@" jornada preechida %d",(int)me.jornada);
     
     self.jornyePickerOpen = false;
-    
     self.jorneySelector.delegate = self;
     self.jorneySelector.dataSource = self;
-    
     self.listaData = [[NSMutableArray alloc] init];
     
     [self.listaData addObject:@"1"];
@@ -126,15 +167,10 @@ SDWebImageManager *manager;
     [self.listaData addObject:@"28"];
     [self.listaData addObject:@"29"];
     [self.listaData addObject:@"30"];
-    
 }
 
--(void)renderTableList{
-    self.listGames = me.listOfGames;
-    self.daysList = me.lisOfDays;
-    
+-(void)initImgData{
     self.imgsData =[[NSMutableArray alloc] init];
-    
     for (int i=0; i<[self.daysList count]; i++) {
         NSMutableArray * item = [self.daysList objectAtIndex:i];
         NSMutableArray * valuesInSection = [[NSMutableArray alloc] init];
@@ -145,17 +181,38 @@ SDWebImageManager *manager;
             PreloadedImgs * teams = [[PreloadedImgs alloc] init];
             teams.img_url1 =[NSURL URLWithString:team1.img];
             teams.img_url2 =[NSURL URLWithString:team2.img];
-            //teams.team1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team1.img]]];
-            //teams.team2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:team2.img]]];
+            /*
+            [manager downloadImageWithURL:teams.img_url1 options:9 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                NSLog(@"-loading-");
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                //NSLog(@"Loaded @");
+                teams.team1 = image;
+            }];
+        
+            [manager downloadImageWithURL:teams.img_url2 options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                NSLog(@"-loading-");
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                //NSLog(@"Loaded @");
+                teams.team2 = image;
+            }];
+                */
             [valuesInSection addObject:teams];
         }
-         [self.imgsData addObject:valuesInSection];
+    [self.imgsData addObject:valuesInSection];
     }
+}
+
+-(void)renderTableList{
+    self.listGames = me.listOfGames;
+    self.daysList = me.lisOfDays;
+    [refreshControl endRefreshing];
+    
+    [self initImgData];
+    
     if (me.jornadaStr!=NULL) {
         NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
         self.navigationbaritem.title = TitlePage;
     }
-   
     [self.tableGames reloadData];
     
 }
@@ -219,16 +276,12 @@ SDWebImageManager *manager;
     if (cell == nil) {
         cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
     NSMutableArray * item = [self.daysList objectAtIndex:indexPath.section];
     NSMutableArray * imgBase = [self.imgsData objectAtIndex:indexPath.section];
-    
     PreloadedImgs * baseInfo = imgBase[indexPath.row];
-    
     Game *game = item[indexPath.row];
     Team * team1 = game.team1Info;
     Team * team2 = game.team2Info;
-    
     cell.team1.text = team1.teamName;
     
     NSString * valueGoals = [NSString stringWithFormat:@"%ld", (long)team1.goals];
@@ -236,20 +289,18 @@ SDWebImageManager *manager;
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     
+    //[cell.imgteam1 setImage:baseInfo.team1];
+    //[cell.imgteam2 setImage:baseInfo.team2];
     
-    [cell.imgteam1 setImageWithURL:baseInfo.img_url1 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
-    [cell.imgteam2 setImageWithURL:baseInfo.img_url2 placeholderImage:[UIImage imageNamed:@"http://www.cif.org.pt/Assets/img/decor/logos/256/peleve.png"] options:0];
-    
-    
+    [cell.imgteam1 setImageWithURL:baseInfo.img_url1 placeholderImage:NULL];
+    [cell.imgteam2 setImageWithURL:baseInfo.img_url2 placeholderImage:NULL];
     cell.goalsteam1.text = valueGoals;
-    //cell.imgteam1.image = baseInfo.team1;
     cell.team2.text = team2.teamName;
     valueGoals = [NSString stringWithFormat:@"%ld", (long)team2.goals];
     if (team2.goals<0) {
         valueGoals = [NSString stringWithFormat:@"-"];
     }
     cell.goalsteam2.text = valueGoals;
-    //cell.imgteam2.image = baseInfo.team2;
     cell.schedule.text = game.time;
     
     return cell;
@@ -327,8 +378,8 @@ SDWebImageManager *manager;
     [cell.numerojornada.layer setCornerRadius:0.0f];
     [cell.numerojornada.layer setMasksToBounds:YES];
     [cell.numerojornada.layer setBorderWidth:0.0f];
-
     
+
     if ((int)indexCell==((int)indexPath.row+1)) {
         cell.numerojornada.textColor = [UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1];
     }
@@ -345,7 +396,7 @@ SDWebImageManager *manager;
 
 #pragma mark - UI HANDLER
 -(void)jorneyPushed{
-    NSLog(@"Jorney Pushed");
+    //NSLog(@"Jorney Pushed");
 }
 
 - (IBAction)tooglejornada:(id)sender {

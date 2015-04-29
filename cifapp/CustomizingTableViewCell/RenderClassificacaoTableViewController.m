@@ -84,7 +84,7 @@ AppListOfGames * me;
     [view addSubview:label];
     [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.95]]; //your background color...
     
-    NSLog(@"section %d",section);
+    //NSLog(@"section %d",section);
     /*
      if(){
      }

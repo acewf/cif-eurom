@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 @interface GamesResultControlerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UINavigationBarDelegate,UINavigationControllerDelegate>
 - (IBAction)tooglejornada:(id)sender;

@@ -23,10 +23,26 @@ static AppListOfGames *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
+        [sharedInstance initReachability];
     });
     
     
     return sharedInstance;
+}
+-(void)updateAllData{
+    if([self.googleReach isReachable]){
+        [self initWebServices];
+    } else{
+        UIAlertView *myAlert = [[UIAlertView alloc]
+                                initWithTitle:@"Sem Rede"
+                                message:@"Para actualizar, verifique a sua ligação a internet"
+                                delegate:self
+                                cancelButtonTitle:@"OK"
+                                otherButtonTitles:nil,nil];
+        [myAlert show];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NetWorkStatus" object:self.googleReach];
+    }
 }
 
 -(void)initWebServices{
@@ -37,6 +53,7 @@ static AppListOfGames *sharedInstance = nil;
 }
 
 -(void)initWithoutWebServices{
+    NSLog(@"Start without net");
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataFixtures = [userDefaults objectForKey:@"data_fixtures"];
     NSData *data_cup_fixtures = [userDefaults objectForKey:@"data_cup_fixtures"];
@@ -55,7 +72,6 @@ static AppListOfGames *sharedInstance = nil;
     if (data_ranking!=Nil) {
         [self processRanking:data_ranking];
     } else {
-        NSLog(@"ABC %hhd",[self.googleReach isReachable]);
         if(![self.googleReach isReachable]){
             [self alertme:@"Verifique a sua ligação"];
         }
@@ -80,38 +96,26 @@ static AppListOfGames *sharedInstance = nil;
     
     self.googleReach.reachableBlock = ^(Reachability * reachability)
     {
-        //NSString * temp = [NSString stringWithFormat:@"GOOGLE A1_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
-        //NSLog(@"%@", temp);
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
         // this uses NSOperationQueue mainQueue
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             ///// DO SOMETHING
             //NSString * temp = [NSString stringWithFormat:@"InternetConnection A1_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
-            //NSLog(@"%@", temp);
-            [pointer initWebServices];
+            NSLog(@"faz pedido a net, depois de receber informacao que existe net disponivel");
+            //[pointer initWebServices];
         }];
     };
     
     self.googleReach.unreachableBlock = ^(Reachability * reachability)
     {
-        //NSString * temp = [NSString stringWithFormat:@"GOOGLE A2_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        //NSLog(@"%@", temp);
-        [pointer initWithoutWebServices];
+        //[pointer initWithoutWebServices];
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            //NSString * temp = [NSString stringWithFormat:@"InternetConnection A2_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
-            //NSLog(@"%@", temp);
-            
             //[pointer alertme:temp];
         });
     };
-    //[pointer initWithoutWebServices];
-    if([self.googleReach isReachable]){
-        [pointer initWebServices];
-    } else{
-        [pointer initWithoutWebServices];
-    }
+   
     
     [self.googleReach startNotifier];
     
@@ -128,21 +132,15 @@ static AppListOfGames *sharedInstance = nil;
     
     self.localWiFiReach.reachableBlock = ^(Reachability * reachability)
     {
-        //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R1 Block Says Reachable(%@)", reachability.currentReachabilityString];
-        //NSLog(@"%@", temp);
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
             //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A3_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
-            [pointer initWebServices];
+            //[pointer initWebServices];
         });
     };
     
     self.localWiFiReach.unreachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI A4_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        
-        NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
             //NSString * temp = [NSString stringWithFormat:@"LocalWIFI A4_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
@@ -162,22 +160,14 @@ static AppListOfGames *sharedInstance = nil;
     
     self.internetConnectionReach.reachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@" InternetConnection  A5_R1 Says Reachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
-            NSString * temp = [NSString stringWithFormat:@"LocalWIFI A5_R2 operationBlock reachable(%@)", reachability.currentReachabilityString];
-            NSLog(@"%@", temp);
-            [pointer initWebServices];
+            //[pointer initWebServices];
         });
     };
     
     self.internetConnectionReach.unreachableBlock = ^(Reachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"InternetConnection  A6_R1 Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        
-        NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
             //// DO SOMETHING
             //NSString * temp = [NSString stringWithFormat:@"InternetConnection A6_R2 operationBlock unreachable(%@)", reachability.currentReachabilityString];
@@ -195,12 +185,19 @@ static AppListOfGames *sharedInstance = nil;
     
     // Here we set up a NSNotification observer. The Reachability that caused the notification
     // is passed in the object parameter
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(reachabilityChanged:)  name:kReachabilityChangedNotification object:nil];
     
     [reach startNotifier];
+    
+    [pointer initWithoutWebServices];
+    NSLog(@"times to run");
+    if([self.googleReach isReachable]){
+        NSLog(@" is Reacheble inline");
+        [pointer initWebServices];
+    } else{
+        NSLog(@" is unReacheble inline");
+        //[pointer initWithoutWebServices];
+    }
 }
 
 
@@ -212,14 +209,14 @@ static AppListOfGames *sharedInstance = nil;
     {
         if([reach isReachable])
         {
-            NSString * temp = [NSString stringWithFormat:@"GOOGLE Notification Says Reachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"GOOGLE Notification Says Reachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
             
         }
         else
         {
-            NSString * temp = [NSString stringWithFormat:@"GOOGLE Notification Says Unreachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"GOOGLE Notification Says Unreachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
             
         }
     }
@@ -227,26 +224,26 @@ static AppListOfGames *sharedInstance = nil;
     {
         if([reach isReachable])
         {
-            NSString * temp = [NSString stringWithFormat:@"LocalWIFI Notification Says Reachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"LocalWIFI Notification Says Reachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
         }
         else
         {
-            NSString * temp = [NSString stringWithFormat:@"LocalWIFI Notification Says Unreachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"LocalWIFI Notification Says Unreachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
         }
     }
     else if (reach == self.internetConnectionReach)
     {
         if([reach isReachable])
         {
-            NSString * temp = [NSString stringWithFormat:@"InternetConnection Notification Says Reachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"InternetConnection Notification Says Reachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
         }
         else
         {
-            NSString * temp = [NSString stringWithFormat:@"InternetConnection Notification Says Unreachable(%@)", reach.currentReachabilityString];
-            NSLog(@"%@", temp);
+            //NSString * temp = [NSString stringWithFormat:@"InternetConnection Notification Says Unreachable(%@)", reach.currentReachabilityString];
+            //NSLog(@"%@", temp);
         }
     }
     
@@ -276,10 +273,9 @@ static AppListOfGames *sharedInstance = nil;
 - (void)callServiceFixturesAll:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
-    
-    NSLog(@" url %@",urlpath);
     
     NSURL *url = [NSURL URLWithString:urlpath];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -289,7 +285,7 @@ static AppListOfGames *sharedInstance = nil;
          {
              [self processFixturesAll:data];
          }else{
-             NSLog(@"error callServiceFixtures");
+             
          };
      }];
 }
@@ -369,12 +365,13 @@ static AppListOfGames *sharedInstance = nil;
     }
     [gamesByJornada addObject:tempArray];
     self.fixturesgroup = gamesByJornada;
-    self.jornada = self.lastGamePlayed;
-    self.jornadaStr = [NSString stringWithFormat:@"%ld", (long)self.lastGamePlayed];
-    
-    NSLog(@" call gamesresult");
-    
-    NSMutableArray * xxjornada = [gamesByJornada objectAtIndex:self.lastGamePlayed-1];
+    if (self.jornada==0) {
+        self.jornada = self.lastGamePlayed;
+    }
+    self.jornadaStr = [NSString stringWithFormat:@"%ld", (long)self.jornada];
+    NSInteger * actualJorney = (int)self.jornada-1;
+    NSMutableArray * xxjornada = [gamesByJornada objectAtIndex:actualJorney];
+    self.jornadaInfo = xxjornada;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:xxjornada];
 }
 
@@ -403,6 +400,7 @@ static AppListOfGames *sharedInstance = nil;
 - (void)callServiceFixtures:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
     
@@ -416,7 +414,7 @@ static AppListOfGames *sharedInstance = nil;
          {
              [self processFixtures:data];
          }else{
-             NSLog(@"error callServiceFixtures");
+             
          };
      }];
 }
@@ -490,6 +488,7 @@ static AppListOfGames *sharedInstance = nil;
 - (void)callServiceCupFixtures:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
     
@@ -590,6 +589,7 @@ static AppListOfGames *sharedInstance = nil;
 - (void)callServicePlayersRanking:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
     
@@ -635,6 +635,7 @@ static AppListOfGames *sharedInstance = nil;
 - (void)callServiceRanking:(NSMutableString*) service
 {
     NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
     

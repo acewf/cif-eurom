@@ -335,6 +335,7 @@ UIRefreshControl *refreshControl;
     [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(closeCollectionView:) userInfo:nil repeats:NO];
     
     int askjornada = [[self.listaData objectAtIndex:indexPath.row] intValue];
+    NSLog(@" jornada:>>%zd",askjornada);
     me.jornada = askjornada;
     me.jornadaStr = [NSString stringWithFormat:@"%ld", (long)askjornada];
     [me getfixtures:askjornada-1];
@@ -400,8 +401,8 @@ UIRefreshControl *refreshControl;
 }
 
 - (IBAction)tooglejornada:(id)sender {
-    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,150);
-    CGRect goSmall = CGRectMake(0,150,self.view.frame.size.width,self.view.frame.size.height-150);
+    CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,170);
+    CGRect goSmall = CGRectMake(0,150,self.view.frame.size.width,self.view.frame.size.height-170);
     
     CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     

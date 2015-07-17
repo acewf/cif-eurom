@@ -46,6 +46,8 @@ static AppListOfGames *sharedInstance = nil;
 }
 
 -(void)initWebServices{
+    NSLog(@"-INIT WEB SERVICES-");
+    [self getJorney];
     [self getfixtures];//:@"21"
     [self getPlayersRanking];
     [self getRanking];
@@ -260,6 +262,43 @@ static AppListOfGames *sharedInstance = nil;
 /////////////////////////////////////////////////
 ////////////// FIXTURES RETURN /////////////////
 /////////////////////////////////////////////////
+-(NSMutableArray*)getJorney{
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-cur-schedule"];
+    
+    NSString * urlpath = [NSString stringWithFormat:@"%@", @""];
+    urlpath = [serv stringByAppendingString:urlpath];
+    serv = [NSMutableString stringWithFormat:@"%@", urlpath];
+    
+    [self callServiceJornayAll:serv];
+    
+    return self.listOfGames;
+}
+- (void)callServiceJornayAll:(NSMutableString*) service
+{
+    NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://www.cif.org.pt/endpoint.php?action="];
+    //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
+    NSString * urlpath = [path stringByAppendingString:service];
+    
+    
+    NSURL *url = [NSURL URLWithString:urlpath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             NSArray *returneddata = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+             int * indexjornye = [[[returneddata objectAtIndex:0] valueForKeyPath:@"schedule"] intValue];
+             self.jornada = (NSInteger)indexjornye;
+             
+             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+             [userDefaults setInteger:self.jornada forKey:@"jornada"];
+         }else{
+             
+         };
+     }];
+}
+
+
 -(NSMutableArray*)getfixtures{
     NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-fixtures"];
     
@@ -299,8 +338,12 @@ static AppListOfGames *sharedInstance = nil;
     self.lisOfDays = [[NSMutableArray alloc] init];
     NSMutableArray * tempArray = [[NSMutableArray alloc] init];
     NSMutableArray * gamesByJornada = [[NSMutableArray alloc] init];
-    int jornadaActual = 0;
     
+    NSLog(@" ANTES JORNEY --- %zd",self.jornada);
+    
+    int jornadaActual = 0;//self.jornada;
+    
+    NSLog(@" jornadaActual --- %zd",jornadaActual);
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:data forKey:@"data_fixtures"];
@@ -347,6 +390,10 @@ static AppListOfGames *sharedInstance = nil;
             game.played = true;
         }
         
+        NSLog(@"JORNADA:>>");
+        NSLog(@" jornadaActual --- %zd",jornadaActual);
+        NSLog(@" Compare --- %zd",[game.jornada intValue]-1);
+        
         if (jornadaActual!=([game.jornada intValue]-1)) {
             jornadaActual   = [game.jornada intValue]-1;
             [gamesByJornada addObject:tempArray];
@@ -361,15 +408,23 @@ static AppListOfGames *sharedInstance = nil;
         } else {
             [sectionGames addObject:game];
         }
-        
     }
+
     [gamesByJornada addObject:tempArray];
     self.fixturesgroup = gamesByJornada;
+    
     if (self.jornada==0) {
         self.jornada = self.lastGamePlayed;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        self.jornada = (NSInteger)[[userDefaults objectForKey:@"jornada"] intValue];
     }
     self.jornadaStr = [NSString stringWithFormat:@"%ld", (long)self.jornada];
     NSInteger * actualJorney = (int)self.jornada-1;
+    if ((int)actualJorney<0) {
+        actualJorney = 1;
+    }
+    NSLog(@" ACTUAL JORNEY --- %zd",actualJorney);
+    
     NSMutableArray * xxjornada = [gamesByJornada objectAtIndex:actualJorney];
     self.jornadaInfo = xxjornada;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:xxjornada];
@@ -403,8 +458,6 @@ static AppListOfGames *sharedInstance = nil;
     //NSMutableString * path = [NSMutableString stringWithFormat:@"%@", @"http://cif.eurom.pt/endpoint.php?action="];
     NSString * urlpath = [path stringByAppendingString:service];
     
-    
-    NSLog(@" url %@",urlpath);
     
     NSURL *url = [NSURL URLWithString:urlpath];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

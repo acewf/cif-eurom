@@ -402,7 +402,7 @@ UIRefreshControl *refreshControl;
 
 - (IBAction)tooglejornada:(id)sender {
     CGRect pickerGoBig = CGRectMake(0,0,self.view.frame.size.width,170);
-    CGRect goSmall = CGRectMake(0,150,self.view.frame.size.width,self.view.frame.size.height-170);
+    CGRect goSmall = CGRectMake(0,170,self.view.frame.size.width,self.view.frame.size.height-170);
     
     CGRect goBig = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     

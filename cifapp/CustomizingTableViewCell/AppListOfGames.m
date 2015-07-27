@@ -263,7 +263,7 @@ static AppListOfGames *sharedInstance = nil;
 ////////////// FIXTURES RETURN /////////////////
 /////////////////////////////////////////////////
 -(NSMutableArray*)getJorney{
-    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-cur-schedule"];
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-cur-schedule&overwrite=17"];
     
     NSString * urlpath = [NSString stringWithFormat:@"%@", @""];
     urlpath = [serv stringByAppendingString:urlpath];
@@ -290,12 +290,17 @@ static AppListOfGames *sharedInstance = nil;
              int * indexjornye = [[[returneddata objectAtIndex:0] valueForKeyPath:@"schedule"] intValue];
              self.jornada = (NSInteger)indexjornye;
              
+             NSLog(@"update ## jornada %zd",self.jornada);
+             
              NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
              [userDefaults setInteger:self.jornada forKey:@"jornada"];
          }else{
              
          };
      }];
+    NSInteger * actualJorney = (int)self.jornada-1;
+    NSMutableArray * xxjornada = [self.fixturesgroup objectAtIndex:actualJorney];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gamesResult" object:xxjornada];
 }
 
 
@@ -355,7 +360,6 @@ static AppListOfGames *sharedInstance = nil;
         [dateFormatter setDateFormat:@"y-MM-dd HH:mm:ss "];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         
-        
         Team *teamHome = [[Team alloc] init];
         teamHome.teamId = [key valueForKeyPath:@"TeamHomeId"];
         teamHome.teamName = [key valueForKeyPath:@"TeamHomeName"];
@@ -389,11 +393,11 @@ static AppListOfGames *sharedInstance = nil;
         } else {
             game.played = true;
         }
-        
+        /*
         NSLog(@"JORNADA:>>");
         NSLog(@" jornadaActual --- %zd",jornadaActual);
         NSLog(@" Compare --- %zd",[game.jornada intValue]-1);
-        
+        */
         if (jornadaActual!=([game.jornada intValue]-1)) {
             jornadaActual   = [game.jornada intValue]-1;
             [gamesByJornada addObject:tempArray];

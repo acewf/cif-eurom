@@ -130,7 +130,7 @@ UIRefreshControl *refreshControl;
         me.lisOfDays  = me.jornadaInfo;
         [self renderTableList];
     }
-    //NSLog(@" jornada preechida %d",(int)me.jornada);
+    NSLog(@" jornada preechida %d",(int)me.jornada);
     
     self.jornyePickerOpen = false;
     self.jorneySelector.delegate = self;

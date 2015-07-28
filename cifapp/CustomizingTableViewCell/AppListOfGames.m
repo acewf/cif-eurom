@@ -263,7 +263,7 @@ static AppListOfGames *sharedInstance = nil;
 ////////////// FIXTURES RETURN /////////////////
 /////////////////////////////////////////////////
 -(NSMutableArray*)getJorney{
-    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-cur-schedule&overwrite=17"];
+    NSMutableString * serv = [NSMutableString stringWithFormat:@"%@", @"get-cur-schedule"];
     
     NSString * urlpath = [NSString stringWithFormat:@"%@", @""];
     urlpath = [serv stringByAppendingString:urlpath];

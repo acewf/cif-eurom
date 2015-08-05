@@ -294,6 +294,7 @@ static AppListOfGames *sharedInstance = nil;
              
              NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
              [userDefaults setInteger:self.jornada forKey:@"jornada"];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"jornadaResult" object:userDefaults];
          }else{
              
          };

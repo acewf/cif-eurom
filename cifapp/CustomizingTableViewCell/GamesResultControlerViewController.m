@@ -123,6 +123,24 @@ UIRefreshControl *refreshControl;
          me.lisOfDays  = notification.object;
          [self renderTableList];
      }];
+    
+    
+    NSLog(@"Criado Jornada update");
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"jornadaResult" object:nil queue:mainQueue
+                                                  usingBlock:^(NSNotification *notification)
+     {
+         NSUserDefaults *userDefaults = notification.object;
+         
+         [userDefaults integerForKey:@"jornada"];
+         //me.jornada  = notification.object;
+         if (indexCell==0) {
+             indexCell = me.jornada;
+         }
+         
+         [self renderTableList];
+     }];
+    
+    
     if ((int)me.jornada!=0) {
         if (indexCell==0) {
             indexCell = me.jornada;
@@ -205,16 +223,18 @@ UIRefreshControl *refreshControl;
 -(void)renderTableList{
     self.listGames = me.listOfGames;
     self.daysList = me.lisOfDays;
+    indexCell = me.jornada;
     [refreshControl endRefreshing];
     
     [self initImgData];
+    [self.jorneySelector reloadData];
     
     if (me.jornadaStr!=NULL) {
         NSString * TitlePage = [NSString stringWithFormat:@"%@ %@", @"Jornada", me.jornadaStr];
         self.navigationbaritem.title = TitlePage;
     }
+    //[self.collectionView reloadData];
     [self.tableGames reloadData];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -330,12 +350,10 @@ UIRefreshControl *refreshControl;
     [cell.numerojornada.layer setBorderWidth:1.0f];
     [cell.numerojornada.layer setBorderColor:[[UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1] CGColor]];
     
-  
     Markedcell = cell;
     [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(closeCollectionView:) userInfo:nil repeats:NO];
     
     int askjornada = [[self.listaData objectAtIndex:indexPath.row] intValue];
-    NSLog(@" jornada:>>%zd",askjornada);
     me.jornada = askjornada;
     me.jornadaStr = [NSString stringWithFormat:@"%ld", (long)askjornada];
     [me getfixtures:askjornada-1];
@@ -379,7 +397,6 @@ UIRefreshControl *refreshControl;
     [cell.numerojornada.layer setCornerRadius:0.0f];
     [cell.numerojornada.layer setMasksToBounds:YES];
     [cell.numerojornada.layer setBorderWidth:0.0f];
-    
 
     if ((int)indexCell==((int)indexPath.row+1)) {
         cell.numerojornada.textColor = [UIColor colorWithRed:57/255.0 green:189/255.0 blue:232/255.0 alpha:1];
